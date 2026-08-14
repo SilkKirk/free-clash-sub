@@ -1,0 +1,25 @@
+{
+  "updated_at": "2026-08-15T00:00:20.479135",
+  "node_count": 30,
+  "total_candidates": 5637,
+  "sources": [
+    {
+      "source": "lancex",
+      "article_url": "https://lancex.net/free-node/clash-node-2026-8-14.htm"
+    },
+    {
+      "source": "clash-node",
+      "article_url": "https://clash-node.com/free-node/free-vpn-node-2026-8-14.htm"
+    }
+  ],
+  "all_yaml_urls": [
+    "https://node.lancex.net/uploads/2026/08/0-20260814.yaml",
+    "https://node.lancex.net/uploads/2026/08/1-20260814.yaml",
+    "https://node.lancex.net/uploads/2026/08/2-20260814.yaml",
+    "https://node.lancex.net/uploads/2026/08/3-20260814.yaml",
+    "https://node.lancex.net/uploads/2026/08/4-20260814.yaml",
+    "https://node.clash-node.com/uploads/2026/08/0-20260814.yaml",
+    "https://node.clash-node.com/uploads/2026/08/2-20260814.yaml",
+    "https://node.clash-node.com/uploads/2026/08/4-20260814.yaml"
+  ]
+}

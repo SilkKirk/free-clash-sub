@@ -1,0 +1,17 @@
+port: 7890
+proxies:
+- cipher: aes-256-gcm
+  name: n1
+  password: x
+  port: 443
+  server: 1.2.3.4
+  type: ss
+proxy-groups:
+- name: DIRECT
+  proxies: []
+  type: direct
+- name: REJECT
+  proxies: []
+  type: reject
+rules:
+- MATCH,n1

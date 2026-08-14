@@ -1,0 +1,23 @@
+port: 7890
+proxies:
+- cipher: aes-256-gcm
+  name: n1
+  password: x
+  port: 443
+  server: 1.2.3.4
+  type: ss
+proxy-groups:
+- name: 节点选择
+  proxies:
+  - 自动选择
+  - DIRECT
+  - REJECT
+  - n1
+  type: select
+- name: 自动选择
+  proxies:
+  - n1
+  type: url-test
+rules:
+- GEOIP,CN,DIRECT
+- MATCH,节点选择

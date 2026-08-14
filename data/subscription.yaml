@@ -1,0 +1,413 @@
+# Free Clash Subscription (speed-tested, top 30)
+# generated: 2026-08-15 00:00:20
+# sources:
+#   - [lancex] https://lancex.net/free-node/clash-node-2026-8-14.htm
+#   - [clash-node] https://clash-node.com/free-node/free-vpn-node-2026-8-14.htm
+# node delays:
+#     339ms  🇹🇭TH_1|73KB/s|R002-260618 01 #2
+#     339ms  🇯🇵JP_108|196KB/s|R002-260618 01 #2
+#     436ms  🇸🇬SG_78|101KB/s|R002-260618 01 #1
+#     436ms  🇺🇸US_291|132KB/s|R002-260618 01 #2
+#     443ms  🇺🇸US_291|132KB/s|R002-260618 01 #1
+#     502ms  🇭🇰 香港 19 #1
+#     520ms  🇹🇭TH_1|73KB/s|R002-260618 01 #1
+#     601ms  GB英国(mibei77.com 米贝节点分享)
+#     611ms  🇧🇷BR_12|305KB/s|R002-260618 01 #2
+#     636ms  🇸🇬SG_72|347KB/s|R002-260618 01 #2
+#     640ms  DE德国(mibei77.com 米贝节点分享)_2
+#     721ms  🇸🇬SG_72|347KB/s|R002-260618 01 #1
+#     794ms  🇯🇵JP_108|196KB/s|R002-260618 01 #1
+#     798ms  🇺🇸US_484|248KB/s|R002-260618 01 #1
+#     850ms  美國丨yoyapai.com_1 #2
+#     857ms  🇳🇱NL_167|348KB/s|R002-260618 01 #1
+#     880ms  🇳🇱NL_144|306KB/s|R002-260618 01 #1
+#     882ms  🇺🇸US_346|155KB/s|R002-260618 01 #1
+#     889ms  🇺🇸US_269|89KB/s|P002-260618 01 #1
+#     891ms  🇺🇸US_343|211KB/s|P002-260618 01 #1
+#     903ms  🇳🇱NL_143|193KB/s|R002-260618 01 #1
+#     904ms  🇩🇪DE_127|408KB/s|R002-260618 01 #2
+#     917ms  🇺🇸US_258|212KB/s|R002-260618 01 #1
+#     920ms  🇺🇸US_296|194KB/s|P002-260618 01 #1
+#     922ms  🇫🇷FR_944|300KB/s|M002-260618 01 #1
+#     923ms  🇷🇴RO_10|214KB/s|P002-260618 01 #1
+#     923ms  🇺🇸US_372|187KB/s|P002-260618 01 #1
+#     931ms  🇺🇸US_354|196KB/s|P002-260618 01 #1
+#     934ms  🇷🇴RO_159|283KB/s|P002-260618 01 #1
+#     936ms  🇺🇸US_413|93KB/s 01 #1
+
+mixed-port: 7890
+allow-lan: false
+mode: rule
+log-level: info
+ipv6: false
+external-controller: 127.0.0.1:9090
+dns:
+  enable: true
+  listen: 127.0.0.1:1053
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  default-nameserver:
+  - 223.5.5.5
+  - 119.29.29.29
+  nameserver:
+  - https://dns.alidns.com/dns-query
+  - https://doh.pub/dns-query
+  proxy-server-nameserver:
+  - https://dns.alidns.com/dns-query
+  - https://doh.pub/dns-query
+proxies:
+- name: '🇹🇭TH_1|73KB/s|R002-260618 01 #2'
+  port: 31280
+  server: 202.28.194.139
+  sub_tag: R002-260618
+  type: http
+  udp: true
+- name: '🇯🇵JP_108|196KB/s|R002-260618 01 #2'
+  port: 443
+  server: fan.571589.xyz
+  sni: fan.571589.xyz
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: '🇸🇬SG_78|101KB/s|R002-260618 01 #1'
+  password: e4b72b531a2d10900519
+  port: 443
+  server: 146.70.29.45
+  sni: 92461d2d.acsnet.co
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: testuser1
+  udp: true
+- name: '🇺🇸US_291|132KB/s|R002-260618 01 #2'
+  password: gs4BXwT6SW
+  port: 10988
+  server: 154.26.192.123
+  sub_tag: R002-260618
+  tls: false
+  type: http
+  username: fQ67Dpe5dU
+  udp: true
+- name: '🇺🇸US_291|132KB/s|R002-260618 01 #1'
+  password: gs4BXwT6SW
+  port: 10988
+  server: 154.26.192.123
+  sub_tag: R002-260618
+  tls: false
+  type: http
+  username: fQ67Dpe5dU
+  udp: true
+- name: '🇭🇰 香港 19 #1'
+  port: 443
+  server: fan.240104.xyz
+  skip-cert-verify: true
+  sni: fan.240104.xyz
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: '🇹🇭TH_1|73KB/s|R002-260618 01 #1'
+  port: 31280
+  server: 202.28.194.139
+  sub_tag: R002-260618
+  type: http
+  udp: true
+- name: GB英国(mibei77.com 米贝节点分享)
+  type: trojan
+  server: 104.18.23.63
+  port: 443
+  password: humanity
+  sni: www.ignitelimit.com
+  alpn:
+  - http/1.1
+  skip-cert-verify: true
+  tls: true
+  ws-opts:
+    path: /assignment
+  udp: true
+- name: '🇧🇷BR_12|305KB/s|R002-260618 01 #2'
+  password: qGwNSnw1
+  port: 64218
+  server: 200.225.173.142
+  sub_tag: R002-260618
+  type: http
+  username: ZJWRqQLE
+  udp: true
+- name: '🇸🇬SG_72|347KB/s|R002-260618 01 #2'
+  password: qGwNSnw1
+  port: 63124
+  server: 45.195.184.106
+  sub_tag: R002-260618
+  type: http
+  username: ZJWRqQLE
+  udp: true
+- name: DE德国(mibei77.com 米贝节点分享)_2
+  type: trojan
+  server: 45.80.111.7
+  port: 443
+  password: MiTiVPN
+  sni: d-2-AA-ia-MiTiVPN--MiTiVPN--MiTiVPN---MiTiVPN--MiTiVPN--MiTiVPN.mitiVpN.lIfeStyLe
+  alpn:
+  - http/1.1
+  skip-cert-verify: true
+  tls: true
+  ws-opts:
+    path: /---@MiTiVPN---@MiTiVPN/---@MiTiVPN---@MiTiVPN/---@MiTiVPN---@MiTiVPN/D-e1@MiTiVPN---@MiTiVPN/---@MiTiVPN---@MiTiVPN/---@MiTiVPN---@MiTiVPN
+  udp: true
+- name: '🇸🇬SG_72|347KB/s|R002-260618 01 #1'
+  password: qGwNSnw1
+  port: 63124
+  server: 45.195.184.106
+  sub_tag: R002-260618
+  type: http
+  username: ZJWRqQLE
+  udp: true
+- name: '🇯🇵JP_108|196KB/s|R002-260618 01 #1'
+  port: 443
+  server: fan.571589.xyz
+  sni: fan.571589.xyz
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: '🇺🇸US_484|248KB/s|R002-260618 01 #1'
+  port: 443
+  server: fan.365747.xyz
+  skip-cert-verify: true
+  sni: fan.365747.xyz
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: '美國丨yoyapai.com_1 #2'
+  type: trojan
+  server: 167.82.101.251
+  port: 443
+  password: Mitivpn
+  sni: ssl.fastly.com
+  alpn:
+  - http/1.1
+  skip-cert-verify: true
+  tls: true
+  ws-opts:
+    path: /de
+    headers:
+      Host: 3-mitivpn.global.ssl.fastly.net
+  udp: true
+- name: '🇳🇱NL_167|348KB/s|R002-260618 01 #1'
+  port: 443
+  server: 185.246.153.42
+  skip-cert-verify: true
+  sni: 482c8436a1f7c908b48a1757abb5dd79-3791fb4df2db250b.apache-iv.com
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: '🇳🇱NL_144|306KB/s|R002-260618 01 #1'
+  port: 23856
+  server: 51.159.225.196
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: '🇺🇸US_346|155KB/s|R002-260618 01 #1'
+  port: 443
+  server: 38.28.193.188
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: '🇺🇸US_269|89KB/s|P002-260618 01 #1'
+  password: None
+  port: 9002
+  server: 138.199.35.205
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: '🇺🇸US_343|211KB/s|P002-260618 01 #1'
+  password: 'null'
+  port: 9002
+  server: 138.199.35.217
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: '🇳🇱NL_143|193KB/s|R002-260618 01 #1'
+  port: 8889
+  server: 95.211.64.139
+  sub_tag: R002-260618
+  type: http
+  udp: true
+- name: '🇩🇪DE_127|408KB/s|R002-260618 01 #2'
+  password: su2j2TfjY
+  port: 64200
+  server: 154.195.173.209
+  sub_tag: R002-260618
+  type: http
+  username: WwDyfLyzH
+  udp: true
+- name: '🇺🇸US_258|212KB/s|R002-260618 01 #1'
+  port: 9002
+  server: 138.199.35.211
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: '🇺🇸US_296|194KB/s|P002-260618 01 #1'
+  password: None
+  port: 9002
+  server: 138.199.35.213
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- client-fingerprint: chrome
+  encryption: none
+  name: '🇫🇷FR_944|300KB/s|M002-260618 01 #1'
+  network: ws
+  port: 2087
+  server: 172.64.53.140
+  sub_tag: M002-260618
+  tls: true
+  type: vless
+  udp: true
+  uuid: 77777777-8a3e-6666-b6d1-a9c5f0e8b3a2
+  ws-opts:
+    early-data-header-name: Sec-WebSocket-Protocol
+    headers:
+      Host: faxf32gkfzoxqv.fx6hsv0.ccwu.cc
+      User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36
+    max-early-data: 2560
+    path: /
+  xudp: true
+  packet-encoding: xudp
+  servername: faxf32gkfzoxqv.fx6hsv0.ccwu.cc
+- name: '🇷🇴RO_10|214KB/s|P002-260618 01 #1'
+  password: None
+  port: 9002
+  server: 193.176.84.38
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: '🇺🇸US_372|187KB/s|P002-260618 01 #1'
+  password: None
+  port: 9002
+  server: 138.199.35.204
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: '🇺🇸US_354|196KB/s|P002-260618 01 #1'
+  password: 'null'
+  port: 9002
+  server: 138.199.35.207
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: '🇷🇴RO_159|283KB/s|P002-260618 01 #1'
+  password: None
+  port: 9002
+  server: 193.176.84.39
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: '🇺🇸US_413|93KB/s 01 #1'
+  password: ''
+  port: 9002
+  server: 138.199.35.199
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: ''
+  udp: true
+proxy-groups:
+- name: 节点选择
+  type: select
+  proxies:
+  - 自动选择
+  - DIRECT
+  - '🇹🇭TH_1|73KB/s|R002-260618 01 #2'
+  - '🇯🇵JP_108|196KB/s|R002-260618 01 #2'
+  - '🇸🇬SG_78|101KB/s|R002-260618 01 #1'
+  - '🇺🇸US_291|132KB/s|R002-260618 01 #2'
+  - '🇺🇸US_291|132KB/s|R002-260618 01 #1'
+  - '🇭🇰 香港 19 #1'
+  - '🇹🇭TH_1|73KB/s|R002-260618 01 #1'
+  - GB英国(mibei77.com 米贝节点分享)
+  - '🇧🇷BR_12|305KB/s|R002-260618 01 #2'
+  - '🇸🇬SG_72|347KB/s|R002-260618 01 #2'
+  - DE德国(mibei77.com 米贝节点分享)_2
+  - '🇸🇬SG_72|347KB/s|R002-260618 01 #1'
+  - '🇯🇵JP_108|196KB/s|R002-260618 01 #1'
+  - '🇺🇸US_484|248KB/s|R002-260618 01 #1'
+  - '美國丨yoyapai.com_1 #2'
+  - '🇳🇱NL_167|348KB/s|R002-260618 01 #1'
+  - '🇳🇱NL_144|306KB/s|R002-260618 01 #1'
+  - '🇺🇸US_346|155KB/s|R002-260618 01 #1'
+  - '🇺🇸US_269|89KB/s|P002-260618 01 #1'
+  - '🇺🇸US_343|211KB/s|P002-260618 01 #1'
+  - '🇳🇱NL_143|193KB/s|R002-260618 01 #1'
+  - '🇩🇪DE_127|408KB/s|R002-260618 01 #2'
+  - '🇺🇸US_258|212KB/s|R002-260618 01 #1'
+  - '🇺🇸US_296|194KB/s|P002-260618 01 #1'
+  - '🇫🇷FR_944|300KB/s|M002-260618 01 #1'
+  - '🇷🇴RO_10|214KB/s|P002-260618 01 #1'
+  - '🇺🇸US_372|187KB/s|P002-260618 01 #1'
+  - '🇺🇸US_354|196KB/s|P002-260618 01 #1'
+  - '🇷🇴RO_159|283KB/s|P002-260618 01 #1'
+  - '🇺🇸US_413|93KB/s 01 #1'
+- name: 自动选择
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+  - '🇹🇭TH_1|73KB/s|R002-260618 01 #2'
+  - '🇯🇵JP_108|196KB/s|R002-260618 01 #2'
+  - '🇸🇬SG_78|101KB/s|R002-260618 01 #1'
+  - '🇺🇸US_291|132KB/s|R002-260618 01 #2'
+  - '🇺🇸US_291|132KB/s|R002-260618 01 #1'
+  - '🇭🇰 香港 19 #1'
+  - '🇹🇭TH_1|73KB/s|R002-260618 01 #1'
+  - GB英国(mibei77.com 米贝节点分享)
+  - '🇧🇷BR_12|305KB/s|R002-260618 01 #2'
+  - '🇸🇬SG_72|347KB/s|R002-260618 01 #2'
+  - DE德国(mibei77.com 米贝节点分享)_2
+  - '🇸🇬SG_72|347KB/s|R002-260618 01 #1'
+  - '🇯🇵JP_108|196KB/s|R002-260618 01 #1'
+  - '🇺🇸US_484|248KB/s|R002-260618 01 #1'
+  - '美國丨yoyapai.com_1 #2'
+  - '🇳🇱NL_167|348KB/s|R002-260618 01 #1'
+  - '🇳🇱NL_144|306KB/s|R002-260618 01 #1'
+  - '🇺🇸US_346|155KB/s|R002-260618 01 #1'
+  - '🇺🇸US_269|89KB/s|P002-260618 01 #1'
+  - '🇺🇸US_343|211KB/s|P002-260618 01 #1'
+  - '🇳🇱NL_143|193KB/s|R002-260618 01 #1'
+  - '🇩🇪DE_127|408KB/s|R002-260618 01 #2'
+  - '🇺🇸US_258|212KB/s|R002-260618 01 #1'
+  - '🇺🇸US_296|194KB/s|P002-260618 01 #1'
+  - '🇫🇷FR_944|300KB/s|M002-260618 01 #1'
+  - '🇷🇴RO_10|214KB/s|P002-260618 01 #1'
+  - '🇺🇸US_372|187KB/s|P002-260618 01 #1'
+  - '🇺🇸US_354|196KB/s|P002-260618 01 #1'
+  - '🇷🇴RO_159|283KB/s|P002-260618 01 #1'
+  - '🇺🇸US_413|93KB/s 01 #1'
+rules:
+- MATCH,节点选择
