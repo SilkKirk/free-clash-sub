@@ -1,0 +1,9 @@
+# 运行时产物
+tools/
+__pycache__/
+*.pyc
+*.log
+.pytest_cache/
+
+# 保留 data/subscription.yaml 与 data/state.json 用于 GitHub Actions 提交
+data/*.tmp
