@@ -1,0 +1,42 @@
+name: daily-sub
+
+on:
+  schedule:
+    # 每天 UTC 02:00（北京时间 10:00），此时当日文章已发布
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-sub
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 安装依赖
+        run: pip install -r requirements.txt
+
+      - name: 抓取 + 聚合 + 测速 + 生成订阅
+        run: python crawler.py
+
+      - name: 提交订阅文件
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/subscription.yaml data/state.json
+          if git diff --cached --quiet; then
+            echo "无变更，跳过提交"
+          else
+            git commit -m "daily: update subscription $(date -u +%F)"
+            git push
+          fi
