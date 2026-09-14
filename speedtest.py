@@ -223,8 +223,52 @@ def _delay_one(session, name, timeout_ms):
     return None
 
 
-def speed_test(proxies, top_n=30, delay_timeout=8000, workers=64):
-    """真实测速（实际请求穿透代理），返回 (最快节点列表, name->delay 表)。"""
+BANDWIDTH_TEST_URL = "http://cachefly.cachefly.net/10mb.mp4"
+GROUP_NAME = "GLOBAL"
+
+
+def _switch_proxy(proxy_name):
+    """通过 mihomo API 切换当前选中的代理节点。"""
+    quoted = urllib.parse.quote(GROUP_NAME, safe="")
+    url = f"http://{CONTROLLER}/proxies/{quoted}"
+    r = requests.put(url, json={"name": proxy_name}, timeout=5)
+    return r.status_code == 204
+
+
+def _bandwidth_one(proxy_name, timeout=15):
+    """通过代理下载测试文件，返回下载速度 (KB/s)，失败返回 0。"""
+    if not _switch_proxy(proxy_name):
+        return 0
+    try:
+        proxies = {
+            "http": f"http://127.0.0.1:{TEST_PORT}",
+            "https": f"http://127.0.0.1:{TEST_PORT}",
+        }
+        t0 = time.time()
+        with requests.get(BANDWIDTH_TEST_URL, proxies=proxies, timeout=timeout, stream=True) as r:
+            r.raise_for_status()
+            total = 0
+            for chunk in r.iter_content(chunk_size=1 << 16):
+                total += len(chunk)
+                if time.time() - t0 > timeout:
+                    break
+        elapsed = time.time() - t0
+        if elapsed < 0.1 or total < 1024:
+            return 0
+        return total / elapsed / 1024  # KB/s
+    except Exception:
+        return 0
+
+
+def speed_test(proxies, top_n=30, delay_timeout=2000, bandwidth_top_n=60, workers=64):
+    """真实测速（实际请求穿透代理），返回 (最快节点列表, name->info 表)。
+
+    流程：
+      1. TCP 连通性过滤
+      2. 延迟测速（timeout 低，快速过滤）
+      3. 带宽测速（下载 10MB 文件，选真正快的）
+      4. 按带宽排序取 top N
+    """
     bin_path = ensure_mihomo()
     if not proxies:
         return [], {}
@@ -242,12 +286,12 @@ def speed_test(proxies, top_n=30, delay_timeout=8000, workers=64):
         proc = subprocess.Popen(args, stdout=lf, stderr=lf)
     try:
         _wait_ready(proc)
-        log.info("mihomo 已就绪，开始并发延迟测速 (%d 并发, 超时 %dms)", workers, delay_timeout)
+        log.info("阶段2: 延迟测速 (%d 并发, 超时 %dms)", workers, delay_timeout)
         session = requests.Session()
         adapter = HTTPAdapter(pool_connections=workers, pool_maxsize=workers, max_retries=0)
         session.mount("http://", adapter)
         session.mount("https://", adapter)
-        results = {}
+        delay_results = {}
 
         def _test(p):
             name = p["name"]
@@ -259,17 +303,50 @@ def speed_test(proxies, top_n=30, delay_timeout=8000, workers=64):
             for name, d, p in ex.map(_test, candidates):
                 done += 1
                 if d is not None:
-                    results[name] = d
+                    delay_results[name] = d
                 if done % 200 == 0:
-                    log.info("测速进度: %d/%d，可用 %d", done, len(candidates), len(results))
+                    log.info("延迟测速进度: %d/%d，可用 %d", done, len(candidates), len(delay_results))
 
-        log.info("真实可用节点: %d", len(results))
-        ranked = sorted(
-            (p for p in candidates if p["name"] in results),
-            key=lambda p: results[p["name"]],
+        log.info("延迟可达节点: %d", len(delay_results))
+        if not delay_results:
+            return [], {}
+
+        delay_ranked = sorted(
+            (p for p in candidates if p["name"] in delay_results),
+            key=lambda p: delay_results[p["name"]],
         )
-        top = ranked[:top_n]
-        return top, {p["name"]: results[p["name"]] for p in top}
+        bandwidth_candidates = delay_ranked[:bandwidth_top_n]
+        log.info("阶段3: 带宽测速 (%d 节点，下载 %s)", len(bandwidth_candidates), BANDWIDTH_TEST_URL)
+
+        bandwidth_results = {}
+        for i, p in enumerate(bandwidth_candidates):
+            name = p["name"]
+            speed = _bandwidth_one(name)
+            if speed > 0:
+                bandwidth_results[name] = speed
+            if (i + 1) % 10 == 0:
+                log.info("带宽测速进度: %d/%d，可用 %d", i + 1, len(bandwidth_candidates), len(bandwidth_results))
+
+        log.info("带宽可用节点: %d", len(bandwidth_results))
+        if not bandwidth_results:
+            top = delay_ranked[:top_n]
+            return top, {p["name"]: delay_results[p["name"]] for p in top}
+
+        bw_ranked = sorted(
+            (p for p in bandwidth_candidates if p["name"] in bandwidth_results),
+            key=lambda p: bandwidth_results[p["name"]],
+            reverse=True,
+        )
+        top = bw_ranked[:top_n]
+        delays = {}
+        for p in top:
+            info = {}
+            if p["name"] in delay_results:
+                info["delay"] = delay_results[p["name"]]
+            if p["name"] in bandwidth_results:
+                info["bandwidth"] = round(bandwidth_results[p["name"]], 1)
+            delays[p["name"]] = info
+        return top, delays
     finally:
         proc.terminate()
         try:
@@ -286,4 +363,7 @@ if __name__ == "__main__":
     top, delays = speed_test(doc["proxies"], top_n=30)
     print(f"耗时 {time.time() - t0:.0f}s, 保留 {len(top)} 节点")
     for p in top:
-        print(f"  {delays[p['name']]:>5}ms  {p['server']}:{p['port']}  {p['name'][:40]}")
+        info = delays.get(p["name"], {})
+        delay_str = f"{info.get('delay', '?'):>5}ms" if 'delay' in info else "   N/A"
+        bw_str = f"{info.get('bandwidth', 0):>7.1f}KB/s" if 'bandwidth' in info else "     N/A"
+        print(f"  {delay_str}  {bw_str}  {p['server']}:{p['port']}  {p['name'][:40]}")

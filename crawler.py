@@ -43,7 +43,8 @@ SOURCES = [
 ]
 
 TOP_N = int(os.environ.get("TOP_N", "30"))
-DELAY_TIMEOUT_MS = int(os.environ.get("DELAY_TIMEOUT_MS", "8000"))
+DELAY_TIMEOUT_MS = int(os.environ.get("DELAY_TIMEOUT_MS", "2000"))
+BANDWIDTH_TOP_N = int(os.environ.get("BANDWIDTH_TOP_N", "60"))
 
 HEADERS = {
     "User-Agent": (
@@ -166,6 +167,20 @@ def _dedupe_names(proxies):
     return proxies
 
 
+def _clean_proxy(p):
+    """清洗代理字段：移除无意义值，防止 YAML 序列化问题。"""
+    p = dict(p)
+    REMOVE_KEYS = {"sub_tag"}
+    for k in REMOVE_KEYS:
+        p.pop(k, None)
+    EMPTY_SENTINELS = {"None", "none", "null", "Null", "NULL", "~"}
+    for k in ("password", "username"):
+        v = p.get(k)
+        if isinstance(v, str) and v.strip() in EMPTY_SENTINELS:
+            p[k] = ""
+    return p
+
+
 def merge_proxies(docs):
     merged, seen = [], set()
     for doc in docs:
@@ -174,6 +189,7 @@ def merge_proxies(docs):
                 continue
             if _is_junk(p):
                 continue
+            p = _clean_proxy(p)
             key = _node_key(p)
             if key in seen:
                 continue
@@ -235,20 +251,8 @@ def build_subscription(proxies, delays, sources_info):
         "proxy-groups": build_proxy_groups(proxies),
         "rules": RULES,
     }
-    lines = [
-        "# Free Clash Subscription (speed-tested, top " + str(len(proxies)) + ")",
-        f"# generated: {datetime.datetime.now():%Y-%m-%d %H:%M:%S}",
-        "# sources:",
-    ]
-    for si in sources_info:
-        lines.append(f"#   - [{si['source']}] {si['article_url']}")
-    lines.append("# node delays:")
-    for p in proxies:
-        d = delays.get(p["name"])
-        if d is not None:
-            lines.append(f"#   {d:>5}ms  {p['name']}")
     body = yaml.safe_dump(cfg, allow_unicode=True, sort_keys=False, width=400)
-    return "\n".join(lines) + "\n\n" + body
+    return body
 
 
 def _validate_subscription():
@@ -293,7 +297,8 @@ def run_crawl(top_n=None, force_speed_test=True):
 
     if force_speed_test:
         top_proxies, delays = speedtest.speed_test(
-            all_proxies, top_n=top_n, delay_timeout=DELAY_TIMEOUT_MS
+            all_proxies, top_n=top_n, delay_timeout=DELAY_TIMEOUT_MS,
+            bandwidth_top_n=BANDWIDTH_TOP_N
         )
         if not top_proxies:
             raise RuntimeError("测速后没有可用节点")
@@ -304,7 +309,7 @@ def run_crawl(top_n=None, force_speed_test=True):
     sub = build_subscription(top_proxies, delays, sources_info)
 
     tmp = OUT_FILE + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
+    with open(tmp, "w", encoding="utf-8", newline="\n") as f:
         f.write(sub)
     os.replace(tmp, OUT_FILE)
 
@@ -317,7 +322,7 @@ def run_crawl(top_n=None, force_speed_test=True):
         "sources": sources_info,
         "all_yaml_urls": source_urls,
     }
-    with open(STATE_FILE, "w", encoding="utf-8") as f:
+    with open(STATE_FILE, "w", encoding="utf-8", newline="\n") as f:
         json.dump(state, f, ensure_ascii=False, indent=2)
     log.info("订阅已生成: %s (%d 节点)", OUT_FILE, len(top_proxies))
     return state

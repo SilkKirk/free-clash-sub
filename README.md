@@ -8,7 +8,7 @@
 - 自动定位**今日最新文章**（先查今天有没有发布，没有则用最新一篇），提取全部 Clash YAML 订阅源
 - 合并去重：按 `类型 + 服务器 + 端口 + 凭据` 去重，并处理跨站点重名节点
 - 过滤掉明显是占位凭证的公共 http/socks5 垃圾节点
-- **真实测速**：TCP 连通性过滤后，经 mihomo 核心实际穿透代理请求 `gstatic.com/generate_204` 测延迟，只保留最快的 30 个
+- **真实测速**：TCP 连通性过滤后，经 mihomo 核心实际穿透代理请求 `gstatic.com/generate_204` 测延迟，再通过下载 10MB 文件测带宽，只保留最快的 30 个
 - 生成包含 `dns` / `proxy-groups(节点选择/自动选择)` / `rules` 的完整可用 Clash 配置，并用 `mihomo -t` 自动校验
 - Web 服务（可选部署）：`/sub` 订阅地址、`/` 信息页、`/status` JSON 状态，后台定时刷新
 
@@ -77,7 +77,8 @@ docker run -d --name free-clash-sub -p 5000:5000 \
 | `REFRESH_HOURS` | `6` | 订阅自动刷新间隔（小时） |
 | `PUBLIC_URL` | `你的服务器地址:5000` | 信息页展示的订阅地址前缀 |
 | `TOP_N` | `30` | 测速后保留的最快节点数 |
-| `DELAY_TIMEOUT_MS` | `8000` | 单节点测速超时（毫秒） |
+| `DELAY_TIMEOUT_MS` | `2000` | 单节点延迟测速超时（毫秒） |
+| `BANDWIDTH_TOP_N` | `60` | 进入带宽测试的节点数（延迟测速前 N 名） |
 | `MIHOMO_MIRROR` | - | mihomo 下载首选镜像（默认直连 GitHub） |
 
 ## 项目结构
@@ -85,7 +86,7 @@ docker run -d --name free-clash-sub -p 5000:5000 \
 ```
 free-clash-sub/
 ├── crawler.py            # 多源抓取 / 合并去重 / 测速 / 生成订阅
-├── speedtest.py          # mihomo 核心管理 + 并发真实测速
+├── speedtest.py          # mihomo 核心管理 + 延迟测速 + 带宽测速
 ├── server.py             # 订阅 Web 服务 + 定时刷新
 ├── requirements.txt
 ├── Dockerfile
