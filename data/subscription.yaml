@@ -1,0 +1,412 @@
+# Free Clash Subscription (speed-tested, top 30)
+# generated: 2026-09-14 10:30:07
+# sources:
+#   - [clash-node] https://clash-node.com/free-node/top-vpn-proxy-2026-9-14.htm
+# node delays:
+#     335ms  🇭🇰 香港 07
+#     357ms  🇯🇵JP_11|289KB/s|R002-260618 01
+#     365ms  🇭🇰 香港 02
+#     486ms  🇫🇷FR_330|315KB/s 01
+#     580ms  🇬🇧GB_136|772KB/s|A004-260618 01
+#     622ms  🇬🇧GB_51|4.1MB/s|A004-260618 01
+#     624ms  🇺🇸US_77|602KB/s 01
+#     624ms  🇺🇸US_294|642KB/s|R002-260618 01
+#     625ms  🇵🇱PL_18|1.0MB/s|R002-260618 01
+#     627ms  🇺🇸US_51|313KB/s|P002-260618 01
+#     639ms  🇺🇸US_164|723KB/s|R002-260618 01
+#     641ms  🇺🇸US_74|723KB/s 01
+#     641ms  🇺🇸US_124|700KB/s|P002-260618 01
+#     651ms  🇫🇷FR_197|207KB/s|C002-260622 01
+#     656ms  ❓Other_15|376KB/s|R002-260618 01
+#     656ms  🇲🇽MX_4|397KB/s|R002-260618 01
+#     657ms  🇺🇸US_293|717KB/s|R002-260618 01
+#     664ms  🇺🇸US_106|695KB/s|R002-260618 01
+#     665ms  🇫🇷FR_162|520KB/s 01
+#     665ms  🇺🇸US_418|677KB/s|P002-260618 01
+#     667ms  🇺🇸US_8|433KB/s 01
+#     667ms  🇺🇸US_142|697KB/s|P002-260618 01
+#     667ms  🇺🇸US_193|780KB/s|R002-260618 01
+#     671ms  🇺🇸US_449|524KB/s|R002-260618 01
+#     672ms  🇺🇸US_136|744KB/s|P002-260618 01
+#     673ms  🇺🇸US_350|618KB/s|R002-260618 01
+#     677ms  🇺🇸US_144|732KB/s|P002-260618 01
+#     678ms  🇺🇸US_145|825KB/s|R002-260618 01
+#     682ms  🇺🇸US_149|657KB/s|P002-260618 01
+#     683ms  🇺🇸US_151|619KB/s|P002-260618 01
+
+mixed-port: 7890
+allow-lan: false
+mode: rule
+log-level: info
+ipv6: false
+external-controller: 127.0.0.1:9090
+dns:
+  enable: true
+  listen: 127.0.0.1:1053
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  default-nameserver:
+  - 223.5.5.5
+  - 119.29.29.29
+  nameserver:
+  - https://dns.alidns.com/dns-query
+  - https://doh.pub/dns-query
+  proxy-server-nameserver:
+  - https://dns.alidns.com/dns-query
+  - https://doh.pub/dns-query
+proxies:
+- name: 🇭🇰 香港 07
+  password: 'null'
+  port: 443
+  server: fan.240104.xyz
+  sni: fan.240104.xyz
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇯🇵JP_11|289KB/s|R002-260618 01
+  password: 'null'
+  port: 443
+  server: fan.571589.xyz
+  sni: fan.571589.xyz
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇭🇰 香港 02
+  port: 443
+  server: fan.240104.xyz
+  skip-cert-verify: true
+  sni: fan.240104.xyz
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- encryption: none
+  name: 🇫🇷FR_330|315KB/s 01
+  network: ws
+  port: 80
+  server: www.speedtest.net
+  type: vless
+  udp: true
+  uuid: 63f1ef69-92fd-427a-b3e4-98ffddf81ac6
+  ws-opts:
+    early-data-header-name: Sec-WebSocket-Protocol
+    headers:
+      Host: young-rice-749e.heliy78750.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36
+    max-early-data: 2560
+    path: /nPKoVRUdyuRZ6jpY/YnBiLnlvdXNlZi5pc2VnYXJvLmNvbSxwcm94eWlwLmNtbGl1c3Nzcy5uZXQsbmltYS5uc2NsLmlyLHR1cmsucmFkaWNhbGl6YXRpb24uaXI=
+  xudp: true
+  packet-encoding: xudp
+- cipher: chacha20-ietf-poly1305
+  name: 🇬🇧GB_136|772KB/s|A004-260618 01
+  password: c58d16e593d44f42
+  port: 11001
+  server: 158.173.221.214
+  sub_tag: A004-260618
+  type: ss
+  udp: true
+- cipher: rc4-md5
+  name: 🇬🇧GB_51|4.1MB/s|A004-260618 01
+  password: 14fFPrbezE3HDZzsMOr6
+  port: 8080
+  server: 146.70.23.32
+  sub_tag: A004-260618
+  type: ss
+  udp: true
+- name: 🇺🇸US_77|602KB/s 01
+  password: ''
+  port: 9002
+  server: 138.199.35.199
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇺🇸US_294|642KB/s|R002-260618 01
+  port: 9002
+  server: 138.199.35.213
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇵🇱PL_18|1.0MB/s|R002-260618 01
+  port: 7778
+  server: 91.238.54.189
+  sub_tag: R002-260618
+  type: http
+  udp: true
+- name: 🇺🇸US_51|313KB/s|P002-260618 01
+  password: ''
+  port: 9002
+  server: 138.199.35.210
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇺🇸US_164|723KB/s|R002-260618 01
+  port: 9002
+  server: 138.199.35.215
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_74|723KB/s 01
+  password: ''
+  port: 9002
+  server: 138.199.35.219
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇺🇸US_124|700KB/s|P002-260618 01
+  password: None
+  port: 9002
+  server: 138.199.35.213
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- encryption: none
+  name: 🇫🇷FR_197|207KB/s|C002-260622 01
+  network: ws
+  port: 8880
+  server: log.bpminecraft.com
+  sub_tag: C002-260622
+  type: vless
+  udp: true
+  uuid: d702b5e4-412d-4859-a528-3fc0b91f6fc0
+  ws-opts:
+    headers:
+      Host: wild-math-3ef2.439.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.63 Safari/537.36
+    path: /pyip=ProxyIP.SG.CMLiussss.net
+  xudp: true
+  packet-encoding: xudp
+- name: ❓Other_15|376KB/s|R002-260618 01
+  port: 443
+  server: voteshirleysew.club
+  sni: voteshirleysew.club
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇲🇽MX_4|397KB/s|R002-260618 01
+  port: 3030
+  server: 189.164.48.17
+  sub_tag: R002-260618
+  type: http
+  udp: true
+- name: 🇺🇸US_293|717KB/s|R002-260618 01
+  port: 9002
+  server: 138.199.35.195
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_106|695KB/s|R002-260618 01
+  port: 9002
+  server: 138.199.35.206
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- encryption: none
+  name: 🇫🇷FR_162|520KB/s 01
+  network: ws
+  port: 8880
+  server: 104.21.56.202
+  type: vless
+  udp: true
+  uuid: 5a4d9f40-56db-402a-9fbc-31c9229bdcf6
+  ws-opts:
+    headers:
+      Host: floral-resonance-4baf.468.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36
+    path: /pyip=ProxyIP.US.CMLiussss.net
+  xudp: true
+  packet-encoding: xudp
+- name: 🇺🇸US_418|677KB/s|P002-260618 01
+  password: 'null'
+  port: 9002
+  server: 138.199.35.219
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇺🇸US_8|433KB/s 01
+  password: ''
+  port: 9002
+  server: 138.199.35.205
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇺🇸US_142|697KB/s|P002-260618 01
+  password: None
+  port: 9002
+  server: 138.199.35.197
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_193|780KB/s|R002-260618 01
+  port: 443
+  server: carolinafreigh.fun
+  sni: carolinafreigh.fun
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_449|524KB/s|R002-260618 01
+  password: None
+  port: 9002
+  server: 138.199.35.195
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_136|744KB/s|P002-260618 01
+  password: 'null'
+  port: 9002
+  server: 138.199.35.207
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇺🇸US_350|618KB/s|R002-260618 01
+  port: 5999
+  server: 24.52.147.103
+  sub_tag: R002-260618
+  type: http
+  udp: true
+- name: 🇺🇸US_144|732KB/s|P002-260618 01
+  password: None
+  port: 9002
+  server: 138.199.35.215
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_145|825KB/s|R002-260618 01
+  password: 'null'
+  port: 9002
+  server: 138.199.35.210
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇺🇸US_149|657KB/s|P002-260618 01
+  password: 'null'
+  port: 9002
+  server: 138.199.35.206
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇺🇸US_151|619KB/s|P002-260618 01
+  password: None
+  port: 9002
+  server: 138.199.35.220
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+proxy-groups:
+- name: 节点选择
+  type: select
+  proxies:
+  - 自动选择
+  - DIRECT
+  - 🇭🇰 香港 07
+  - 🇯🇵JP_11|289KB/s|R002-260618 01
+  - 🇭🇰 香港 02
+  - 🇫🇷FR_330|315KB/s 01
+  - 🇬🇧GB_136|772KB/s|A004-260618 01
+  - 🇬🇧GB_51|4.1MB/s|A004-260618 01
+  - 🇺🇸US_77|602KB/s 01
+  - 🇺🇸US_294|642KB/s|R002-260618 01
+  - 🇵🇱PL_18|1.0MB/s|R002-260618 01
+  - 🇺🇸US_51|313KB/s|P002-260618 01
+  - 🇺🇸US_164|723KB/s|R002-260618 01
+  - 🇺🇸US_74|723KB/s 01
+  - 🇺🇸US_124|700KB/s|P002-260618 01
+  - 🇫🇷FR_197|207KB/s|C002-260622 01
+  - ❓Other_15|376KB/s|R002-260618 01
+  - 🇲🇽MX_4|397KB/s|R002-260618 01
+  - 🇺🇸US_293|717KB/s|R002-260618 01
+  - 🇺🇸US_106|695KB/s|R002-260618 01
+  - 🇫🇷FR_162|520KB/s 01
+  - 🇺🇸US_418|677KB/s|P002-260618 01
+  - 🇺🇸US_8|433KB/s 01
+  - 🇺🇸US_142|697KB/s|P002-260618 01
+  - 🇺🇸US_193|780KB/s|R002-260618 01
+  - 🇺🇸US_449|524KB/s|R002-260618 01
+  - 🇺🇸US_136|744KB/s|P002-260618 01
+  - 🇺🇸US_350|618KB/s|R002-260618 01
+  - 🇺🇸US_144|732KB/s|P002-260618 01
+  - 🇺🇸US_145|825KB/s|R002-260618 01
+  - 🇺🇸US_149|657KB/s|P002-260618 01
+  - 🇺🇸US_151|619KB/s|P002-260618 01
+- name: 自动选择
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+  - 🇭🇰 香港 07
+  - 🇯🇵JP_11|289KB/s|R002-260618 01
+  - 🇭🇰 香港 02
+  - 🇫🇷FR_330|315KB/s 01
+  - 🇬🇧GB_136|772KB/s|A004-260618 01
+  - 🇬🇧GB_51|4.1MB/s|A004-260618 01
+  - 🇺🇸US_77|602KB/s 01
+  - 🇺🇸US_294|642KB/s|R002-260618 01
+  - 🇵🇱PL_18|1.0MB/s|R002-260618 01
+  - 🇺🇸US_51|313KB/s|P002-260618 01
+  - 🇺🇸US_164|723KB/s|R002-260618 01
+  - 🇺🇸US_74|723KB/s 01
+  - 🇺🇸US_124|700KB/s|P002-260618 01
+  - 🇫🇷FR_197|207KB/s|C002-260622 01
+  - ❓Other_15|376KB/s|R002-260618 01
+  - 🇲🇽MX_4|397KB/s|R002-260618 01
+  - 🇺🇸US_293|717KB/s|R002-260618 01
+  - 🇺🇸US_106|695KB/s|R002-260618 01
+  - 🇫🇷FR_162|520KB/s 01
+  - 🇺🇸US_418|677KB/s|P002-260618 01
+  - 🇺🇸US_8|433KB/s 01
+  - 🇺🇸US_142|697KB/s|P002-260618 01
+  - 🇺🇸US_193|780KB/s|R002-260618 01
+  - 🇺🇸US_449|524KB/s|R002-260618 01
+  - 🇺🇸US_136|744KB/s|P002-260618 01
+  - 🇺🇸US_350|618KB/s|R002-260618 01
+  - 🇺🇸US_144|732KB/s|P002-260618 01
+  - 🇺🇸US_145|825KB/s|R002-260618 01
+  - 🇺🇸US_149|657KB/s|P002-260618 01
+  - 🇺🇸US_151|619KB/s|P002-260618 01
+rules:
+- MATCH,节点选择
