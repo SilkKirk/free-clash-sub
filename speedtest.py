@@ -10,7 +10,7 @@ import sys
 import time
 import urllib.parse
 import zipfile
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import requests
 import yaml
@@ -162,7 +162,7 @@ def _download(url, path, timeout):
                     log.info("下载进度: %.1f/%.1f MB", done / 1e6, total / 1e6)
         log.info("下载完成: %d bytes", done)
 
-def tcp_prefilter(proxies, workers=128, timeout=2.0):
+def tcp_prefilter(proxies, workers=128, timeout=1.5):
     """先并发做 TCP 连通性过滤，剔除无法连上的节点。"""
 
     def _ok(p):
@@ -235,7 +235,7 @@ def _switch_proxy(proxy_name):
     return r.status_code == 204
 
 
-def _bandwidth_one(proxy_name, timeout=15):
+def _bandwidth_one(proxy_name, timeout=10):
     """通过代理下载测试文件，返回下载速度 (KB/s)，失败返回 0。"""
     if not _switch_proxy(proxy_name):
         return 0
@@ -260,7 +260,7 @@ def _bandwidth_one(proxy_name, timeout=15):
         return 0
 
 
-def speed_test(proxies, top_n=30, delay_timeout=2000, bandwidth_top_n=60, workers=64):
+def speed_test(proxies, top_n=30, delay_timeout=1000, bandwidth_top_n=40, workers=64):
     """真实测速（实际请求穿透代理），返回 (最快节点列表, name->info 表)。
 
     流程：
@@ -273,9 +273,11 @@ def speed_test(proxies, top_n=30, delay_timeout=2000, bandwidth_top_n=60, worker
     if not proxies:
         return [], {}
 
+    t_start = time.time()
     log.info("阶段1: TCP 连通性过滤 (%d 节点)", len(proxies))
     candidates = tcp_prefilter(proxies)
-    log.info("TCP 可达 %d 节点，进入真实测速", len(candidates))
+    t_tcp = time.time()
+    log.info("TCP 可达 %d 节点 (%.1fs)", len(candidates), t_tcp - t_start)
     if not candidates:
         return [], {}
 
@@ -307,7 +309,8 @@ def speed_test(proxies, top_n=30, delay_timeout=2000, bandwidth_top_n=60, worker
                 if done % 200 == 0:
                     log.info("延迟测速进度: %d/%d，可用 %d", done, len(candidates), len(delay_results))
 
-        log.info("延迟可达节点: %d", len(delay_results))
+        t_delay = time.time()
+        log.info("延迟可达节点: %d (%.1fs)", len(delay_results), t_delay - t_tcp)
         if not delay_results:
             return [], {}
 
@@ -319,15 +322,20 @@ def speed_test(proxies, top_n=30, delay_timeout=2000, bandwidth_top_n=60, worker
         log.info("阶段3: 带宽测速 (%d 节点，下载 %s)", len(bandwidth_candidates), BANDWIDTH_TEST_URL)
 
         bandwidth_results = {}
-        for i, p in enumerate(bandwidth_candidates):
-            name = p["name"]
-            speed = _bandwidth_one(name)
-            if speed > 0:
-                bandwidth_results[name] = speed
-            if (i + 1) % 10 == 0:
-                log.info("带宽测速进度: %d/%d，可用 %d", i + 1, len(bandwidth_candidates), len(bandwidth_results))
+        done = 0
+        with ThreadPoolExecutor(max_workers=32) as ex:
+            futures = {ex.submit(_bandwidth_one, p["name"]): p for p in bandwidth_candidates}
+            for future in as_completed(futures):
+                p = futures[future]
+                speed = future.result()
+                if speed > 0:
+                    bandwidth_results[p["name"]] = speed
+                done += 1
+                if done % 10 == 0:
+                    log.info("带宽测速进度: %d/%d, 可用 %d", done, len(bandwidth_candidates), len(bandwidth_results))
 
-        log.info("带宽可用节点: %d", len(bandwidth_results))
+        t_bw = time.time()
+        log.info("带宽可用节点: %d (%.1fs)", len(bandwidth_results), t_bw - t_delay)
         if not bandwidth_results:
             top = delay_ranked[:top_n]
             return top, {p["name"]: delay_results[p["name"]] for p in top}
@@ -346,6 +354,9 @@ def speed_test(proxies, top_n=30, delay_timeout=2000, bandwidth_top_n=60, worker
             if p["name"] in bandwidth_results:
                 info["bandwidth"] = round(bandwidth_results[p["name"]], 1)
             delays[p["name"]] = info
+        t_end = time.time()
+        log.info("测速完成: TCP %.1fs + 延迟 %.1fs + 带宽 %.1fs = 总计 %.1fs, 保留 %d 节点",
+                 t_tcp - t_start, t_delay - t_tcp, t_bw - t_delay, t_end - t_start, len(top))
         return top, delays
     finally:
         proc.terminate()

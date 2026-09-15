@@ -43,8 +43,8 @@ SOURCES = [
 ]
 
 TOP_N = int(os.environ.get("TOP_N", "30"))
-DELAY_TIMEOUT_MS = int(os.environ.get("DELAY_TIMEOUT_MS", "2000"))
-BANDWIDTH_TOP_N = int(os.environ.get("BANDWIDTH_TOP_N", "60"))
+DELAY_TIMEOUT_MS = int(os.environ.get("DELAY_TIMEOUT_MS", "1000"))
+BANDWIDTH_TOP_N = int(os.environ.get("BANDWIDTH_TOP_N", "40"))
 
 HEADERS = {
     "User-Agent": (
