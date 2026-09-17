@@ -19,19 +19,70 @@ dns:
   - https://dns.alidns.com/dns-query
   - https://doh.pub/dns-query
 proxies:
-- name: FR法国(mibei77.com 米贝节点分享)_15
-  type: trojan
-  server: www.ignitelimit.com
-  port: 443
-  password: humanity
-  sni: www.ignitelimit.com
-  alpn:
-  - http/1.1
-  skip-cert-verify: true
-  ws-opts:
-    path: /assignment
+- cipher: chacha20-ietf-poly1305
+  name: ❓Other_38|284KB/s|A004-260618 01
+  password: qB2Cv9VIlujj
+  port: 8388
+  server: 23.150.248.20
+  type: ss
   udp: true
-- name: HK香港(mibei77.com 米贝节点分享)_1
+- alterId: 0
+  cipher: auto
+  name: 🇺🇸US_5|273KB/s|M002-260618 01
+  network: tcp
+  port: 180
+  server: 82.198.246.37
+  skip-cert-verify: false
+  tls: false
+  type: vmess
+  udp: true
+  uuid: d13fc2f5-3e05-4795-81eb-44143a09e552
+  xudp: true
+  packet-encoding: xudp
+  servername: sea9.firewallcontract.click
+- alterId: 0
+  cipher: auto
+  name: 🇺🇸US_3|379KB/s|M002-260618 01
+  network: tcp
+  port: 180
+  server: 82.198.246.250
+  skip-cert-verify: false
+  tls: false
+  type: vmess
+  udp: true
+  uuid: d13fc2f5-3e05-4795-81eb-44143a09e552
+  xudp: true
+  packet-encoding: xudp
+  servername: t.me/ripaojiedian
+- alterId: 0
+  cipher: auto
+  name: 🇺🇸US_36|221KB/s|M002-260618 01
+  network: tcp
+  port: 180
+  server: 82.198.246.97
+  skip-cert-verify: false
+  tls: false
+  type: vmess
+  udp: true
+  uuid: d13fc2f5-3e05-4795-81eb-44143a09e552
+  xudp: true
+  packet-encoding: xudp
+  servername: fra32.chasem2026sud.com
+- alterId: 0
+  cipher: auto
+  name: ❓Other_15|663KB/s|M002-260618 01
+  network: tcp
+  port: 180
+  server: 82.198.246.233
+  skip-cert-verify: false
+  tls: false
+  type: vmess
+  udp: true
+  uuid: d13fc2f5-3e05-4795-81eb-44143a09e552
+  xudp: true
+  packet-encoding: xudp
+  servername: gsgsdgreyrehjsrteargsfhtrhsrwrhtruiekghmg.pages.dev
+- name: GB英国(mibei77.com 米贝节点分享)_1
   type: trojan
   server: 104.18.23.63
   port: 443
@@ -42,385 +93,490 @@ proxies:
   skip-cert-verify: true
   ws-opts:
     path: /assignment
-    headers:
-      Host: www.ignitelimit.com
   udp: true
-- name: FR法国(mibei77.com 米贝节点分享)_1
-  type: trojan
-  server: 216.24.57.7
-  port: 443
-  password: humanity
-  sni: www.ignitelimit.com
-  alpn:
-  - http/1.1
-  skip-cert-verify: true
-  ws-opts:
-    path: /assignment
-  udp: true
-- name: 🇺🇸US美国丨yoyapai.com
-  type: trojan
-  server: 216.24.57.7
-  port: 443
-  password: humanity
-  sni: www.ignitelimit.com
-  alpn:
-  - http/1.1
-  skip-cert-verify: false
-  ws-opts:
-    path: /assignment
-  udp: true
-- name: 🇭🇰HK香港節點丨yoyapai.com_4
-  type: vless
-  server: 91.193.58.92
+- encryption: none
+  name: 🇫🇷FR_11|206KB/s 01
+  network: ws
   port: 80
-  uuid: f2d55510-fa3c-4e3b-adfc-2d96fa399c19
-  network: ws
-  tls: false
-  ws-opts:
-    path: /pyip=Telegram🇨🇳+@WangCai2
-    headers:
-      Host: plain-darkness-90ea.259.workers.dev
-  skip-cert-verify: false
-  udp: true
-- name: 🇨🇦CA加拿大丨yoyapai.com_10
+  server: www.speedtest.net
   type: vless
-  server: 104.21.23.72
-  port: 8880
-  uuid: f4e6476f-40d0-40cb-841f-cc2f6909ff20
-  network: ws
-  tls: false
-  ws-opts:
-    path: /pyip=ProxyIP.SG.CMLiussss.net
-    headers:
-      Host: calm-haze-d105.21-7cd.workers.dev
-  skip-cert-verify: false
   udp: true
-- name: ❓未知丨yoyapai.com_14
-  type: vless
-  server: 185.148.107.40
-  port: 8880
-  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
-  network: ws
-  tls: false
+  uuid: 63f1ef69-92fd-427a-b3e4-98ffddf81ac6
   ws-opts:
+    early-data-header-name: Sec-WebSocket-Protocol
+    headers:
+      Host: young-rice-749e.heliy78750.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36
+    max-early-data: 2560
+    path: /nPKoVRUdyuRZ6jpY/YnBiLnlvdXNlZi5pc2VnYXJvLmNvbSxwcm94eWlwLmNtbGl1c3Nzcy5uZXQsbmltYS5uc2NsLmlyLHR1cmsucmFkaWNhbGl6YXRpb24uaXI=
+  xudp: true
+  packet-encoding: xudp
+- encryption: none
+  name: 🇫🇷FR_107|325KB/s|X001-260618 01
+  network: ws
+  port: 80
+  server: 104.25.122.72
+  type: vless
+  udp: true
+  uuid: 6cd78ec7-b715-471c-92b4-0c3842caea4b
+  ws-opts:
+    early-data-header-name: Sec-WebSocket-Protocol
+    headers:
+      Host: billowing-cloud-d339.sospanel.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36
+    max-early-data: 2560
+    path: /eyJqdW5rIjoiVXRIT2UwaDUiLCJwcm90b2NvbCI6InZsIiwibW9kZSI6InByZWZpeCIsInBhbmVsSVBzIjpbIlsyNjAyOmZjNTk6YjA6NjQ6Ol0iXX0=
+  xudp: true
+  packet-encoding: xudp
+- encryption: none
+  name: 🇫🇷FR_359|781KB/s|M003-260806 01
+  network: ws
+  port: 8080
+  server: 104.21.70.21
+  type: vless
+  udp: true
+  uuid: d342d11e-d424-4583-b36e-524ab1f0afa4
+  ws-opts:
+    headers:
+      Host: newwk1.f1w.de5.net
+      User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36
     path: /
-    headers:
-      Host: vms.lifetime55.workers.dev
-  skip-cert-verify: false
-  udp: true
-- name: ❓未知丨yoyapai.com_9
-  type: vless
-  server: 50.62.194.30
-  port: 8880
-  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
+    early-data-header-name: Sec-WebSocket-Protocol
+    max-early-data: 2560
+  xudp: true
+  packet-encoding: xudp
+- encryption: none
+  name: ❓Other_316|380KB/s|T001-260618 01
   network: ws
-  tls: false
-  ws-opts:
-    path: /
-    headers:
-      Host: vms.lifetime37.workers.dev
-  skip-cert-verify: false
-  udp: true
-- name: ❓未知丨yoyapai.com_11
+  port: 8080
+  server: 188.114.97.6
   type: vless
-  server: 104.26.13.40
-  port: 8880
-  uuid: 875d3876-ab9a-4dd6-8a8d-bf57f03403aa
-  network: ws
-  tls: false
+  udp: true
+  uuid: 0432902e-6604-40cd-bbd0-57ab4e5d909f
   ws-opts:
+    early-data-header-name: Sec-WebSocket-Protocol
+    headers:
+      Host: bpb-4dc4958b.hxjkcghchv.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36
+    max-early-data: 2560
+    path: /eyJqdW5rIjoiOENNZnB6WTgiLCJwcm90b2NvbCI6InZsIiwibW9kZSI6InByb3h5aXAiLCJwYW5lbElQcyI6W119
+  xudp: true
+  packet-encoding: xudp
+  servername: bpb-4dc4958b.hxjkcghchv.workers.dev
+- encryption: none
+  name: 🇫🇷FR_357|430KB/s|V008-260618 01
+  network: ws
+  port: 80
+  server: 104.17.148.22
+  type: vless
+  udp: true
+  uuid: 63f1ef69-92fd-427a-b3e4-98ffddf81ac6
+  ws-opts:
+    early-data-header-name: Sec-WebSocket-Protocol
+    headers:
+      Host: young-rice-749e.heliy78750.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+    max-early-data: 2560
+    path: /nPKoVRUdyuRZ6jpY/YnBiLnlvdXNlZi5pc2VnYXJvLmNvbSxwcm94eWlwLmNtbGl1c3Nzcy5uZXQsbmltYS5uc2NsLmlyLHR1cmsucmFkaWNhbGl6YXRpb24uaXI=
+  xudp: true
+  packet-encoding: xudp
+- name: 🇫🇷FR_259|339KB/s|M003-260806 01
+  network: ws
+  port: 8080
+  server: 188.114.97.6
+  type: vless
+  udp: true
+  uuid: 93fa8bdb-9cca-4a3e-8355-b7c12e4f595e
+  ws-opts:
+    headers:
+      Host: fornewiran.ade-1000.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+    path: /vl/yLWNcuUuw1jlJpkDhGy
+    early-data-header-name: Sec-WebSocket-Protocol
+    max-early-data: 2560
+  xudp: true
+  packet-encoding: xudp
+- name: 🇫🇷FR_380|98KB/s|A004-260618 01
+  network: ws
+  port: 8880
+  server: 104.16.107.139
+  type: vless
+  udp: true
+  uuid: ae83f4a6-7fd3-4168-9f42-1260fc601155
+  ws-opts:
+    headers:
+      Host: shy-mud-e936.15-bb9.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
     path: /pyip=ProxyIP.JP.CMLiussss.net
-    headers:
-      Host: square-sea-01d1.339-be3.workers.dev
-  skip-cert-verify: false
-  udp: true
-- name: 🇭🇰HK香港節點丨yoyapai.com_5
-  type: vless
-  server: 91.193.58.93
-  port: 80
-  uuid: f2d55510-fa3c-4e3b-adfc-2d96fa399c19
-  network: ws
-  tls: false
-  ws-opts:
-    path: /pyip=Telegram🇨🇳+@WangCai2
-    headers:
-      Host: plain-darkness-90ea.259.workers.dev
-  skip-cert-verify: false
-  udp: true
-- name: 🇺🇸美國丨yoyapai.com_1
-  type: vless
-  server: 162.159.156.214
-  port: 8880
-  uuid: 12cebf33-2f96-48a3-af37-c2231e5cef75
-  network: ws
-  tls: false
-  ws-opts:
-    path: /pyip=ProxyIP.US.CMLiussss.net
-    headers:
-      Host: throbbing-moon-a07c.90-ec4.workers.dev
-  skip-cert-verify: false
-  udp: true
-- name: 🇭🇰HK香港節點丨yoyapai.com_2
-  type: vless
-  server: 91.193.58.141
-  port: 443
-  uuid: 9419f782-b18e-4c4b-ae95-a7a279fd021f
-  network: ws
-  servername: jamph131-1228.pages.dev
-  tls: true
-  ws-opts:
-    path: Telegram-WangCai2🇨🇳
-    headers:
-      Host: jamph131-1228.pages.dev
-  skip-cert-verify: false
-  udp: true
-- name: 🇨🇦CA加拿大丨yoyapai.com_11
-  type: vless
-  server: 104.21.23.72
-  port: 8880
-  uuid: 30a88c40-581e-4952-aa4c-8af95686ede0
-  network: ws
-  tls: false
-  ws-opts:
-    path: /
-    headers:
-      Host: rapid-lab-95ef.173-74c.workers.dev
-  skip-cert-verify: false
-  udp: true
-- name: 🗽🇺🇸美國CloudFlare节点丨yoyapai.com
-  type: vless
-  server: 162.159.81.104
-  port: 80
-  uuid: 4b00d726-e072-429b-997e-f07affea3b7f
-  network: ws
-  tls: false
-  ws-opts:
-    path: /eyJqdW5rIjoiUEVTdDRlR2hhc0JuYyIsInByb3RvY29sIjoidmwiLCJtb2RlIjoicHJlZml4IiwicGFuZWxJUHMiOlsiWzI2MDI6ZmM1OTpiMDo2NDo6XSJdfQ
-    headers:
-      Host: icy-darkness-8ff1.farzambia12mo.workers.dev
-  skip-cert-verify: false
-  udp: true
-- name: 🇭🇰HK香港節點丨yoyapai.com_3
-  type: vless
-  server: 91.193.58.117
-  port: 443
-  uuid: 9419f782-b18e-4c4b-ae95-a7a279fd021f
-  network: ws
-  servername: jamph131-1228.pages.dev
-  tls: true
-  ws-opts:
-    path: Telegram-WangCai2🇨🇳
-    headers:
-      Host: jamph131-1228.pages.dev
-  skip-cert-verify: false
-  udp: true
-- name: NL荷兰(mibei77.com 米贝节点分享)_10
+  xudp: true
+  packet-encoding: xudp
+  servername: shy-mud-e936.15-bb9.workers.dev
+- cipher: chacha20-ietf-poly1305
+  name: 🇺🇸US_29|432KB/s|A004-260618 01
+  password: G5p6ww4o67HB
+  port: 8388
+  server: 108.181.0.177
   type: ss
-  server: 158.173.221.214
-  port: 11001
-  cipher: chacha20-ietf-poly1305
-  password: c58d16e593d44f42
-  skip-cert-verify: true
   udp: true
-- name: 🇩🇪DE德国丨yoyapai.com_13
-  type: vless
-  server: 169.40.42.229
-  port: 443
-  uuid: d65cc14c-f53f-4fe2-b262-97856601319c
-  servername: yahoo.com
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: ios
-  reality-opts:
-    public-key: e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg
-    short-id: c39cc7310a
-  skip-cert-verify: false
-  udp: true
-- name: 🇭🇰HK香港節點丨yoyapai.com
-  type: vless
-  server: 91.193.58.93
-  port: 443
-  uuid: 9419f782-b18e-4c4b-ae95-a7a279fd021f
-  network: ws
-  servername: jamph131-1228.pages.dev
-  tls: true
-  ws-opts:
-    path: Telegram-WangCai2🇨🇳
-    headers:
-      Host: jamph131-1228.pages.dev
-  skip-cert-verify: false
-  udp: true
-- name: 🇭🇰HK香港節點丨yoyapai.com_1
-  type: vless
-  server: 91.193.58.195
-  port: 443
-  uuid: 9419f782-b18e-4c4b-ae95-a7a279fd021f
-  network: ws
-  servername: jamph131-1228.pages.dev
-  tls: true
-  ws-opts:
-    path: Telegram-WangCai2🇨🇳
-    headers:
-      Host: jamph131-1228.pages.dev
-  skip-cert-verify: false
-  udp: true
-- name: 🇩🇪_DE_德国
-  type: vless
-  server: 2.59.134.226
-  port: 443
-  uuid: 88281d02-b387-4fe3-918e-26ed331e6d08
-  servername: rich-falcon.cdn.cachefleet.com
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: qq
-  reality-opts:
-    public-key: 1sSmdw90uTiGuitDvp_q8zcXTcHXKQS3IVjA7T1UNiY
-  skip-cert-verify: true
-  udp: true
-- name: 🇦🇺AU澳大利亚丨yoyapai.com
-  type: vless
-  server: 163.8.195.241
-  port: 2087
-  uuid: 56ba5d34-ef22-4ba6-8090-4188b807df54
-  network: ws
-  tls: false
-  ws-opts:
-    path: /29c8fed7ca22
-    headers:
-      Host: /?--v2rayNplus--v2rayNplus--v2rayNplus--
-  skip-cert-verify: false
-  udp: true
-- name: 🇩🇪_德国丨yoyapai.com
-  type: vless
-  server: 46.101.253.244
-  port: 2083
-  uuid: bba95b1f-f48c-454b-897b-a6c6bc307df1
-  network: ws
-  servername: edge.yzkvm.top
-  tls: true
+- alpn:
+  - http/1.1
   client-fingerprint: chrome
+  encryption: none
+  name: 🇫🇷FR_101|609KB/s|M003-260806 01
+  network: ws
+  port: 443
+  server: 172.67.165.125
+  tls: true
+  type: vless
+  udp: true
+  uuid: e48e4049-58bb-4355-9a9a-433b9524d928
   ws-opts:
+    headers:
+      Host: z8z7lovopd53iz6ivd2m.fixing00ponvip.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+    path: /vl/Fx1O4r0oHuQMNuKFQzcoV2yl31
+    early-data-header-name: Sec-WebSocket-Protocol
+    max-early-data: 2560
+  xudp: true
+  packet-encoding: xudp
+  servername: z8Z7LoVOPd53iz6ivD2m.FixinG00PonviP.woRkers.DEV
+- encryption: none
+  name: 🇫🇷FR_157|102KB/s|C002-260622 01
+  network: ws
+  port: 2086
+  server: 104.21.46.101
+  type: vless
+  udp: true
+  uuid: 4a956dfd-b65a-4846-b6da-c85fc79918a5
+  ws-opts:
+    headers:
+      Host: green-scene-32df.atalastchance.workers.dev
+      User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36
+    path: /eyJqdW5rIjoibW81VDZwNXg5S2IiLCJwcm90b2NvbCI6InZsIiwibW9kZSI6InByZWZpeCIsInBhbmVsSVBzIjpbIlsyNjAyOmZjNTk6YjA6NjQ6Ol0iXX0=
+    early-data-header-name: Sec-WebSocket-Protocol
+    max-early-data: 2560
+  xudp: true
+  packet-encoding: xudp
+- client-fingerprint: unsafe
+  encryption: none
+  name: 🇫🇷FR_313|137KB/s|T001-260618 01
+  network: ws
+  port: 443
+  server: 104.21.70.21
+  tls: true
+  type: vless
+  udp: true
+  uuid: 5934b979-e128-4c90-a600-744b97bffc8c
+  ws-opts:
+    headers:
+      Host: 5dktcuajb2a1jxix7csnrmeucg.mahrademami.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36
+    path: /vl/Fi3kP8cNjBoo8UPv
+    early-data-header-name: Sec-WebSocket-Protocol
+    max-early-data: 2560
+  xudp: true
+  packet-encoding: xudp
+  servername: 5dktcuajb2a1jxix7csnrmeucg.mahrademami.workers.dev
+- alpn:
+  - http/1.1
+  client-fingerprint: chrome
+  encryption: none
+  name: 🇫🇷FR_270|604KB/s|M003-260806 01
+  network: ws
+  port: 443
+  server: 104.17.147.22
+  tls: true
+  type: vless
+  udp: true
+  uuid: 4ccf70f9-7632-4b5a-9557-10d2dd347bb2
+  ws-opts:
+    headers:
+      Host: to6r63-kkchighqm2.vxz0dduq7to7su0cdqf.workers.dev
+      User-Agent: Mozilla/5.0 (Linux; Android 5.1; A37f Build/LMY47V) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.93 Mobile Safari/537.36
+    path: /vl/G4J8aNAVZt9KdOjjcfZDFDRI1Obr5E0
+    early-data-header-name: Sec-WebSocket-Protocol
+    max-early-data: 2560
+  xudp: true
+  packet-encoding: xudp
+  servername: TO6R63-KKChIGHQM2.VxZ0DDUq7tO7su0cDqF.WoRKeRs.DeV
+- alpn:
+  - http/1.1
+  client-fingerprint: chrome
+  encryption: none
+  name: ❓Other_261|251KB/s|B007-260618 01
+  network: ws
+  port: 443
+  server: c0yr9j09y2l9g0td8wa5.2whbrirhjgslm43zjcqei.workers.dev
+  tls: true
+  type: vless
+  udp: true
+  uuid: eb24c3b4-7936-45e2-a253-e54fd1955a7f
+  ws-opts:
+    headers:
+      Host: ''
+      User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36
+    path: /vl/mzLc59gMyjrsaNojAJ6g04
+    early-data-header-name: Sec-WebSocket-Protocol
+    max-early-data: 2560
+  xudp: true
+  packet-encoding: xudp
+  servername: c0YR9J09y2l9G0Td8WA5.2whBRirhjgsLm43ZJcqei.WoRKers.DEv
+- encryption: none
+  name: ❓Other_6|171KB/s|C002-260622 01
+  network: ws
+  port: 8080
+  server: 104.21.11.152
+  type: vless
+  udp: true
+  uuid: d7a8ae86-9904-4f71-8fe4-d754ded610d7
+  ws-opts:
+    headers:
+      Host: server6.diwir81236.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36
+    path: /eyJqdW5rIjoiOHNqQ3Bqc2dTZlppTEl1IiwicHJvdG9jb2wiOiJ2bCIsIm1vZGUiOiJwcmVmaXgiLCJwYW5lbElQcyI6WyJbMmEwMjo4OTg6MTQ2OjY0OjpdIl19
+    early-data-header-name: Sec-WebSocket-Protocol
+    max-early-data: 2560
+  xudp: true
+  packet-encoding: xudp
+- encryption: none
+  name: 🇫🇷FR_252|182KB/s|M003-260806 01
+  network: ws
+  port: 8880
+  server: www.ipget.net
+  type: vless
+  udp: true
+  uuid: 21b93e91-5bb1-4d6d-9093-1fd09ae06903
+  ws-opts:
+    headers:
+      Host: morning-silence-7b1b.222-46c.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31
+    path: /pyip=proxyip.jp.cmliussss.net
+  xudp: true
+  packet-encoding: xudp
+- alpn:
+  - http/1.1
+  client-fingerprint: chrome
+  encryption: none
+  name: ❓Other_240|181KB/s|M003-260806 01
+  network: ws
+  port: 2053
+  server: 172.64.80.1
+  tls: true
+  type: vless
+  udp: true
+  uuid: 2b8738de-1af5-4267-b101-c05707769ed4
+  ws-opts:
+    early-data-header-name: Sec-WebSocket-Protocol
+    headers:
+      Host: fans.liverpool.qzz.io
+      User-Agent: Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.100 Safari/534.30
+    max-early-data: 2560
+    path: /eyJqdW5rIjoiZXlpMnFWRURmWkp5ZCIsInByb3RvY29sIjoidmwiLCJtb2RlIjoicHJveHlpcCIsInBhbmVsSVBzIjpbXX0=
+  xudp: true
+  packet-encoding: xudp
+  servername: FaNs.livErpoOl.qZZ.io
+- encryption: none
+  name: 🇫🇷FR_304|263KB/s|T001-260618 01
+  network: ws
+  port: 8080
+  server: 104.21.44.253
+  type: vless
+  udp: true
+  uuid: c6ba83a7-c4b5-481f-8f71-0f17deff0bf2
+  ws-opts:
+    headers:
+      Host: billowing-sunset-e340.qaraatayi.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36
+    path: /eyJqdW5rIjoiOUhPbnRlV0xaekI1cjciLCJwcm90b2NvbCI6InZsIiwibW9kZSI6InByZWZpeCIsInBhbmVsSVBzIjpbIlsyNjAyOmZjNTk6YjA6NjQ6Ol0iXX0=
+  xudp: true
+  packet-encoding: xudp
+  servername: billowing-sunset-e340.qaraatayi.workers.dev
+- encryption: none
+  name: 🇫🇷FR_353|497KB/s|B007-260618 01
+  network: ws
+  port: 8880
+  server: 104.16.100.215
+  type: vless
+  udp: true
+  uuid: f7ed4770-81f4-47a1-9490-8b8cd684c97e
+  ws-opts:
+    early-data-header-name: Sec-WebSocket-Protocol
+    headers:
+      Host: silent-cloud-aa63.324-7d8.workers.dev
+      User-Agent: Mozilla/5.0 (Linux; Android 7.1; Mi A1 Build/N2G47H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.83 Mobile Safari/537.36
+    max-early-data: 2560
+    path: /pyip=Telegram🇨🇳 @WangCai2
+  xudp: true
+  packet-encoding: xudp
+- encryption: none
+  name: 🇫🇷FR_384|267KB/s|T001-260618 01
+  network: ws
+  port: 8080
+  server: 188.114.97.6
+  type: vless
+  udp: true
+  uuid: f2f4e2dc-3e7b-402f-a461-b48acc6aa310
+  ws-opts:
+    early-data-header-name: Sec-WebSocket-Protocol
+    headers:
+      Host: steep-bonus-8e6a.amirhon1376.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36
+    max-early-data: 2560
+    path: /eyJqdW5rIjoid2JBOTRVclNMOVdBSVQiLCJwcm90b2NvbCI6InZsIiwibW9kZSI6InByb3h5aXAiLCJwYW5lbElQcyI6W119
+  xudp: true
+  packet-encoding: xudp
+  servername: steep-bonus-8e6a.amirhon1376.workers.dev
+- name: 🇫🇷FR_207|85KB/s|A004-260618 01
+  network: ws
+  port: 8880
+  server: 104.26.7.214
+  type: vless
+  udp: true
+  uuid: 878dd962-027b-4bd3-a1f8-66be68a03c4d
+  ws-opts:
+    headers:
+      Host: young-wind-3c58.240-2ce.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36
     path: /
-    headers:
-      Host: edge.yzkvm.top
-  skip-cert-verify: false
-  udp: true
-- name: 🇱🇻_LV_拉脱维亚
-  type: vless
-  server: 195.123.213.28
-  port: 443
-  uuid: 02fcc1a4-ee90-4970-8bbb-4ffaa8109d24
-  servername: www.cloudflare.com
-  tls: true
-  flow: xtls-rprx-vision
+  xudp: true
+  packet-encoding: xudp
+- alpn:
+  - http/1.1
   client-fingerprint: chrome
-  reality-opts:
-    public-key: NMgy1XgCSXExOg6Tg8xG9lCWttMF6sjdpB41lZy6FWo
-    short-id: 5c256336e3b673fa
-  skip-cert-verify: true
-  udp: true
-- name: 🇨🇳_CN_中国
-  type: vmess
-  server: 112.132.215.108
-  port: 50002
-  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
-  alterId: 64
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: 🇺🇸_US_美国_2
-  type: vmess
-  server: www.shopify.com
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  tls: true
-  skip-cert-verify: true
-  servername: guanwang.awsno.com
+  encryption: none
+  name: 🇫🇷FR_317|260KB/s|M003-260806 01
   network: ws
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
-  udp: true
-- name: 挪威(mibei77.com 米贝节点分享)
-  type: vless
-  server: aldebaran.yokkastars.com
-  port: 40443
-  uuid: ed91e79c-f6bf-4fba-8cc0-6d45acaec22b
-  servername: deepl.com
+  port: 443
+  server: lhns3ww2-cxq-gj1vvobkepig4nopkc.hqu4v38hi9iftcp6mzfmx-3bmx.workers.dev
   tls: true
-  client-fingerprint: qq
-  reality-opts:
-    public-key: dvx6zPztKbgHpYaW6J4OZQC74Uy0JS6HUVdDfbjG5V4
-    short-id: '7606'
-  skip-cert-verify: true
+  type: vless
   udp: true
+  uuid: 38d6b629-64c2-4c31-a10d-26eb3a2a053d
+  ws-opts:
+    headers:
+      Host: lhns3ww2-cxq-gj1vvobkepig4nopkc.hqu4v38hi9iftcp6mzfmx-3bmx.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36
+    path: /vl/cxl8Wn1ylnsk63nJ0
+    early-data-header-name: Sec-WebSocket-Protocol
+    max-early-data: 2560
+  xudp: true
+  packet-encoding: xudp
+  servername: lHNs3ww2-CXQ-Gj1vvOBkEPIg4noPkc.hqu4v38Hi9iFtcp6mZfMX-3bmx.WoRKeRS.dEV
+- name: 🇫🇷FR_60|419KB/s 01
+  network: ws
+  port: 8880
+  server: skk.moe
+  type: vless
+  udp: true
+  uuid: cf39cbf2-8926-43b5-ba3e-45b975019094
+  ws-opts:
+    headers:
+      Host: snowy-feather-39d3.428.workers.dev
+      User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.2 (KHTML, like Gecko) Chrome/5.0.342.1 Safari/533.2
+    path: /pyip=ProxyIP.US.CMLiussss.net
+  xudp: true
+  packet-encoding: xudp
+- encryption: none
+  name: 🇫🇷FR_175|134KB/s|C002-260622 01
+  network: ws
+  port: 8880
+  server: cf8.466688.xyz
+  type: vless
+  udp: true
+  uuid: 7111212b-6bc3-459a-85b4-3b13038a19f8
+  ws-opts:
+    headers:
+      Host: shrill-fog-67af.235-e6a.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.94 Safari/537.36
+    path: /pyip=ProxyIP.KR.CMLiussss.net@https://t.me/QiangLieTuiJian
+  xudp: true
+  packet-encoding: xudp
+- encryption: none
+  name: 🇫🇷FR_235|483KB/s|M003-260806 01
+  network: ws
+  port: 8880
+  server: 172.67.179.98
+  type: vless
+  udp: true
+  uuid: 6d613d5f-1d65-48ca-b2e8-d83a2c3a17d9
+  ws-opts:
+    headers:
+      Host: tight-star-08eb.331-729.workers.dev
+      User-Agent: Mozilla/5.0 (Linux; Android 7.0; SM-G570M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.80 Mobile Safari/537.36
+    path: /pyip=ProxyIP.JP.CMLiussss.net
+  xudp: true
+  packet-encoding: xudp
 proxy-groups:
 - name: 节点选择
   type: select
   proxies:
   - 自动选择
   - DIRECT
-  - FR法国(mibei77.com 米贝节点分享)_15
-  - HK香港(mibei77.com 米贝节点分享)_1
-  - FR法国(mibei77.com 米贝节点分享)_1
-  - 🇺🇸US美国丨yoyapai.com
-  - 🇭🇰HK香港節點丨yoyapai.com_4
-  - 🇨🇦CA加拿大丨yoyapai.com_10
-  - ❓未知丨yoyapai.com_14
-  - ❓未知丨yoyapai.com_9
-  - ❓未知丨yoyapai.com_11
-  - 🇭🇰HK香港節點丨yoyapai.com_5
-  - 🇺🇸美國丨yoyapai.com_1
-  - 🇭🇰HK香港節點丨yoyapai.com_2
-  - 🇨🇦CA加拿大丨yoyapai.com_11
-  - 🗽🇺🇸美國CloudFlare节点丨yoyapai.com
-  - 🇭🇰HK香港節點丨yoyapai.com_3
-  - NL荷兰(mibei77.com 米贝节点分享)_10
-  - 🇩🇪DE德国丨yoyapai.com_13
-  - 🇭🇰HK香港節點丨yoyapai.com
-  - 🇭🇰HK香港節點丨yoyapai.com_1
-  - 🇩🇪_DE_德国
-  - 🇦🇺AU澳大利亚丨yoyapai.com
-  - 🇩🇪_德国丨yoyapai.com
-  - 🇱🇻_LV_拉脱维亚
-  - 🇨🇳_CN_中国
-  - 🇺🇸_US_美国_2
-  - 挪威(mibei77.com 米贝节点分享)
+  - ❓Other_38|284KB/s|A004-260618 01
+  - 🇺🇸US_5|273KB/s|M002-260618 01
+  - 🇺🇸US_3|379KB/s|M002-260618 01
+  - 🇺🇸US_36|221KB/s|M002-260618 01
+  - ❓Other_15|663KB/s|M002-260618 01
+  - GB英国(mibei77.com 米贝节点分享)_1
+  - 🇫🇷FR_11|206KB/s 01
+  - 🇫🇷FR_107|325KB/s|X001-260618 01
+  - 🇫🇷FR_359|781KB/s|M003-260806 01
+  - ❓Other_316|380KB/s|T001-260618 01
+  - 🇫🇷FR_357|430KB/s|V008-260618 01
+  - 🇫🇷FR_259|339KB/s|M003-260806 01
+  - 🇫🇷FR_380|98KB/s|A004-260618 01
+  - 🇺🇸US_29|432KB/s|A004-260618 01
+  - 🇫🇷FR_101|609KB/s|M003-260806 01
+  - 🇫🇷FR_157|102KB/s|C002-260622 01
+  - 🇫🇷FR_313|137KB/s|T001-260618 01
+  - 🇫🇷FR_270|604KB/s|M003-260806 01
+  - ❓Other_261|251KB/s|B007-260618 01
+  - ❓Other_6|171KB/s|C002-260622 01
+  - 🇫🇷FR_252|182KB/s|M003-260806 01
+  - ❓Other_240|181KB/s|M003-260806 01
+  - 🇫🇷FR_304|263KB/s|T001-260618 01
+  - 🇫🇷FR_353|497KB/s|B007-260618 01
+  - 🇫🇷FR_384|267KB/s|T001-260618 01
+  - 🇫🇷FR_207|85KB/s|A004-260618 01
+  - 🇫🇷FR_317|260KB/s|M003-260806 01
+  - 🇫🇷FR_60|419KB/s 01
+  - 🇫🇷FR_175|134KB/s|C002-260622 01
+  - 🇫🇷FR_235|483KB/s|M003-260806 01
 - name: 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - FR法国(mibei77.com 米贝节点分享)_15
-  - HK香港(mibei77.com 米贝节点分享)_1
-  - FR法国(mibei77.com 米贝节点分享)_1
-  - 🇺🇸US美国丨yoyapai.com
-  - 🇭🇰HK香港節點丨yoyapai.com_4
-  - 🇨🇦CA加拿大丨yoyapai.com_10
-  - ❓未知丨yoyapai.com_14
-  - ❓未知丨yoyapai.com_9
-  - ❓未知丨yoyapai.com_11
-  - 🇭🇰HK香港節點丨yoyapai.com_5
-  - 🇺🇸美國丨yoyapai.com_1
-  - 🇭🇰HK香港節點丨yoyapai.com_2
-  - 🇨🇦CA加拿大丨yoyapai.com_11
-  - 🗽🇺🇸美國CloudFlare节点丨yoyapai.com
-  - 🇭🇰HK香港節點丨yoyapai.com_3
-  - NL荷兰(mibei77.com 米贝节点分享)_10
-  - 🇩🇪DE德国丨yoyapai.com_13
-  - 🇭🇰HK香港節點丨yoyapai.com
-  - 🇭🇰HK香港節點丨yoyapai.com_1
-  - 🇩🇪_DE_德国
-  - 🇦🇺AU澳大利亚丨yoyapai.com
-  - 🇩🇪_德国丨yoyapai.com
-  - 🇱🇻_LV_拉脱维亚
-  - 🇨🇳_CN_中国
-  - 🇺🇸_US_美国_2
-  - 挪威(mibei77.com 米贝节点分享)
+  - ❓Other_38|284KB/s|A004-260618 01
+  - 🇺🇸US_5|273KB/s|M002-260618 01
+  - 🇺🇸US_3|379KB/s|M002-260618 01
+  - 🇺🇸US_36|221KB/s|M002-260618 01
+  - ❓Other_15|663KB/s|M002-260618 01
+  - GB英国(mibei77.com 米贝节点分享)_1
+  - 🇫🇷FR_11|206KB/s 01
+  - 🇫🇷FR_107|325KB/s|X001-260618 01
+  - 🇫🇷FR_359|781KB/s|M003-260806 01
+  - ❓Other_316|380KB/s|T001-260618 01
+  - 🇫🇷FR_357|430KB/s|V008-260618 01
+  - 🇫🇷FR_259|339KB/s|M003-260806 01
+  - 🇫🇷FR_380|98KB/s|A004-260618 01
+  - 🇺🇸US_29|432KB/s|A004-260618 01
+  - 🇫🇷FR_101|609KB/s|M003-260806 01
+  - 🇫🇷FR_157|102KB/s|C002-260622 01
+  - 🇫🇷FR_313|137KB/s|T001-260618 01
+  - 🇫🇷FR_270|604KB/s|M003-260806 01
+  - ❓Other_261|251KB/s|B007-260618 01
+  - ❓Other_6|171KB/s|C002-260622 01
+  - 🇫🇷FR_252|182KB/s|M003-260806 01
+  - ❓Other_240|181KB/s|M003-260806 01
+  - 🇫🇷FR_304|263KB/s|T001-260618 01
+  - 🇫🇷FR_353|497KB/s|B007-260618 01
+  - 🇫🇷FR_384|267KB/s|T001-260618 01
+  - 🇫🇷FR_207|85KB/s|A004-260618 01
+  - 🇫🇷FR_317|260KB/s|M003-260806 01
+  - 🇫🇷FR_60|419KB/s 01
+  - 🇫🇷FR_175|134KB/s|C002-260622 01
+  - 🇫🇷FR_235|483KB/s|M003-260806 01
 rules:
 - MATCH,节点选择
