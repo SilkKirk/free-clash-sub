@@ -43,8 +43,8 @@ SOURCES = [
 ]
 
 TOP_N = int(os.environ.get("TOP_N", "30"))
-DELAY_TIMEOUT_MS = int(os.environ.get("DELAY_TIMEOUT_MS", "1000"))
-BANDWIDTH_TOP_N = int(os.environ.get("BANDWIDTH_TOP_N", "40"))
+DELAY_TIMEOUT_MS = int(os.environ.get("DELAY_TIMEOUT_MS", "1500"))
+BANDWIDTH_TOP_N = int(os.environ.get("BANDWIDTH_TOP_N", "50"))
 
 HEADERS = {
     "User-Agent": (
@@ -204,14 +204,22 @@ def build_proxy_groups(proxies):
         {
             "name": "节点选择",
             "type": "select",
+            "proxies": ["故障转移", "自动选择", "DIRECT"] + names,
+        },
+        {
+            "name": "故障转移",
+            "type": "fallback",
+            "url": "http://www.gstatic.com/generate_204",
+            "interval": 60,
             "proxies": ["自动选择", "DIRECT"] + names,
         },
         {
             "name": "自动选择",
             "type": "url-test",
             "url": "http://www.gstatic.com/generate_204",
-            "interval": 300,
-            "tolerance": 50,
+            "interval": 120,
+            "tolerance": 100,
+            "lazy": False,
             "proxies": names,
         },
     ]
@@ -231,7 +239,13 @@ def build_subscription(proxies, delays, sources_info):
         "mode": "rule",
         "log-level": "info",
         "ipv6": False,
+        "tcp-concurrent": True,
+        "global-client-fingerprint": "chrome",
         "external-controller": "127.0.0.1:9090",
+        "profile": {
+            "store-selected": True,
+            "store-fake-ip": True,
+        },
         "dns": {
             "enable": True,
             "listen": "127.0.0.1:1053",
@@ -241,7 +255,17 @@ def build_subscription(proxies, delays, sources_info):
             "nameserver": [
                 "https://dns.alidns.com/dns-query",
                 "https://doh.pub/dns-query",
+                "https://dns.google/dns-query",
+                "https://cloudflare-dns.com/dns-query",
             ],
+            "fallback": [
+                "https://dns.google/dns-query",
+                "https://cloudflare-dns.com/dns-query",
+            ],
+            "fallback-filter": {
+                "geoip": True,
+                "geoip-code": "CN",
+            },
             "proxy-server-nameserver": [
                 "https://dns.alidns.com/dns-query",
                 "https://doh.pub/dns-query",
@@ -305,7 +329,20 @@ def run_crawl(top_n=None, force_speed_test=True):
     else:
         top_proxies, delays = all_proxies[:top_n], {}
 
-    log.info("测速后保留最快 %d 个节点", len(top_proxies))
+    MAX_DELAY_MS = int(os.environ.get("MAX_DELAY_MS", "1200"))
+    if delays:
+        before_count = len(top_proxies)
+        top_proxies = [p for p in top_proxies if delays.get(p["name"], {}).get("delay", 0) <= MAX_DELAY_MS]
+        if len(top_proxies) < before_count:
+            log.info("延迟过滤: %d -> %d (上限 %dms)", before_count, len(top_proxies), MAX_DELAY_MS)
+        if not top_proxies:
+            top_proxies = sorted(
+                [p for p in all_proxies if p["name"] in delays],
+                key=lambda p: delays[p["name"]].get("delay", 9999),
+            )[:top_n]
+            log.warning("延迟过滤后无节点，回退取延迟最低的 %d 个", len(top_proxies))
+
+    log.info("最终保留 %d 个节点", len(top_proxies))
     sub = build_subscription(top_proxies, delays, sources_info)
 
     tmp = OUT_FILE + ".tmp"

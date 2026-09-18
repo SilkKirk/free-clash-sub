@@ -162,7 +162,7 @@ def _download(url, path, timeout):
                     log.info("下载进度: %.1f/%.1f MB", done / 1e6, total / 1e6)
         log.info("下载完成: %d bytes", done)
 
-def tcp_prefilter(proxies, workers=128, timeout=1.5):
+def tcp_prefilter(proxies, workers=128, timeout=2.0):
     """先并发做 TCP 连通性过滤，剔除无法连上的节点。"""
 
     def _ok(p):
@@ -235,7 +235,7 @@ def _switch_proxy(proxy_name):
     return r.status_code == 204
 
 
-def _bandwidth_one(proxy_name, timeout=10):
+def _bandwidth_one(proxy_name, timeout=15):
     """通过代理下载测试文件，返回下载速度 (KB/s)，失败返回 0。"""
     if not _switch_proxy(proxy_name):
         return 0
@@ -260,7 +260,7 @@ def _bandwidth_one(proxy_name, timeout=10):
         return 0
 
 
-def speed_test(proxies, top_n=30, delay_timeout=1000, bandwidth_top_n=40, workers=64):
+def speed_test(proxies, top_n=30, delay_timeout=1500, bandwidth_top_n=50, workers=64):
     """真实测速（实际请求穿透代理），返回 (最快节点列表, name->info 表)。
 
     流程：
