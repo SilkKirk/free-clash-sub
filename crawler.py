@@ -327,6 +327,17 @@ def _validate_subscription():
         raise RuntimeError(f"订阅配置校验失败: {(r.stdout + r.stderr)[-800:]}")
 
 
+def _delay_ms(delays, name, default=0):
+    """读取节点延迟，兼容 int 和 {"delay": int} 两种存储格式。"""
+    info = delays.get(name)
+    if isinstance(info, dict):
+        v = info.get("delay")
+        return v if isinstance(v, (int, float)) else default
+    if isinstance(info, (int, float)):
+        return info
+    return default
+
+
 def run_crawl(top_n=None, force_speed_test=True):
     top_n = top_n or TOP_N
     os.makedirs(DATA_DIR, exist_ok=True)
@@ -367,13 +378,13 @@ def run_crawl(top_n=None, force_speed_test=True):
     MAX_DELAY_MS = int(os.environ.get("MAX_DELAY_MS", "2000"))
     if delays:
         before_count = len(top_proxies)
-        top_proxies = [p for p in top_proxies if delays.get(p["name"], {}).get("delay", 0) <= MAX_DELAY_MS]
+        top_proxies = [p for p in top_proxies if _delay_ms(delays, p["name"]) <= MAX_DELAY_MS]
         if len(top_proxies) < before_count:
             log.info("延迟过滤: %d -> %d (上限 %dms)", before_count, len(top_proxies), MAX_DELAY_MS)
         if not top_proxies:
             top_proxies = sorted(
                 [p for p in all_proxies if p["name"] in delays],
-                key=lambda p: delays[p["name"]].get("delay", 9999),
+                key=lambda p: _delay_ms(delays, p["name"], default=9999),
             )[:top_n]
             log.warning("延迟过滤后无节点，回退取延迟最低的 %d 个", len(top_proxies))
 

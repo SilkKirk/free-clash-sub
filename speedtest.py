@@ -223,7 +223,12 @@ def _delay_one(session, name, timeout_ms):
     return None
 
 
-BANDWIDTH_TEST_URL = "http://cachefly.cachefly.net/10mb.mp4"
+# 下载测速文件：cachefly 已长期不可达（mihomo 会立即 502，导致带宽全 0），
+# 改用 Cloudflare 官方测速下载端点，可用环境变量覆盖
+BANDWIDTH_TEST_URL = os.environ.get(
+    "BANDWIDTH_TEST_URL",
+    "https://speed.cloudflare.com/__down?bytes=10000000",
+)
 GROUP_NAME = "GLOBAL"
 # 单节点带宽测速上限（秒）：好节点几秒内就能下完 10MB，
 # 慢节点到时截断按已下载量估算速度
@@ -238,9 +243,11 @@ def _switch_proxy(proxy_name):
     return r.status_code == 204
 
 
-def _bandwidth_one(proxy_name, timeout=BANDWIDTH_TIMEOUT_S):
+def _bandwidth_one(proxy_name, timeout=BANDWIDTH_TIMEOUT_S, log_reason=False):
     """通过代理下载测试文件，返回下载速度 (KB/s)，失败返回 0。"""
     if not _switch_proxy(proxy_name):
+        if log_reason:
+            log.warning("带宽测速: 切换节点 %s 失败", proxy_name)
         return 0
     try:
         proxies = {
@@ -257,9 +264,13 @@ def _bandwidth_one(proxy_name, timeout=BANDWIDTH_TIMEOUT_S):
                     break
         elapsed = time.time() - t0
         if elapsed < 0.1 or total < 1024:
+            if log_reason:
+                log.warning("带宽测速: %s 下载数据异常 (%d bytes / %.2fs)", proxy_name, total, elapsed)
             return 0
         return total / elapsed / 1024  # KB/s
-    except Exception:
+    except Exception as e:
+        if log_reason:
+            log.warning("带宽测速: %s 下载失败: %s", proxy_name, e)
         return 0
 
 
@@ -323,13 +334,13 @@ def speed_test(proxies, top_n=30, delay_timeout=2500, bandwidth_top_n=50, worker
         )
         bandwidth_candidates = delay_ranked[:bandwidth_top_n]
         log.info("阶段3: 带宽测速 (%d 节点，下载 %s)", len(bandwidth_candidates), BANDWIDTH_TEST_URL)
-
         # 注意：_switch_proxy 切换的是全局唯一的 GLOBAL 组，
-        # 并发切换会互相覆盖导致测速结果失真，必须串行执行
+        # 并发切换会互相覆盖导致测速结果失真，必须串行执行；
+        # 前 2 个节点失败时打印原因，便于发现测速 URL 不可达等问题
         bandwidth_results = {}
         total_bw = len(bandwidth_candidates)
         for i, p in enumerate(bandwidth_candidates, 1):
-            speed = _bandwidth_one(p["name"], timeout=BANDWIDTH_TIMEOUT_S)
+            speed = _bandwidth_one(p["name"], timeout=BANDWIDTH_TIMEOUT_S, log_reason=(i <= 2))
             if speed > 0:
                 bandwidth_results[p["name"]] = speed
             if i % 10 == 0 or i == total_bw:
@@ -338,8 +349,10 @@ def speed_test(proxies, top_n=30, delay_timeout=2500, bandwidth_top_n=50, worker
         t_bw = time.time()
         log.info("带宽可用节点: %d (%.1fs)", len(bandwidth_results), t_bw - t_delay)
         if not bandwidth_results:
+            # 无带宽结果时回退到按延迟取 top N；
+            # 返回格式必须与正常路径一致: name -> {"delay": int}
             top = delay_ranked[:top_n]
-            return top, {p["name"]: delay_results[p["name"]] for p in top}
+            return top, {p["name"]: {"delay": delay_results[p["name"]]} for p in top}
 
         bw_ranked = sorted(
             (p for p in bandwidth_candidates if p["name"] in bandwidth_results),
