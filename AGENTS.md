@@ -65,6 +65,20 @@ git reset --hard <FETCH_HEAD 中的 sha>
 内容不一致时，先把远端文件经 API 拉下来比对（注意远端可能是功能更全的新版本，
 应以远端为准），再 reset。
 
+## .git 整目录消失事故（2026-09-20）
+
+ref 丢失问题恶化：一次 fetch 中途失败后 `.git` 整个目录消失（git 报 not a
+repository），未推送的本地 commit 一并丢失，仅工作区文件幸存。
+
+**恢复流程**（原地重建，不迁移动工作区）：
+
+1. 把未推送的改动文件备份到仓库外（tools/_backup/）；
+2. `git init -b main` + `git remote add origin <url>`，从 API 取远端 head 与
+   作者身份（`git config user.name/email`）；
+3. `git fetch origin`（重试）后 `git reset --hard <远端 sha>`；
+4. 从备份恢复改动文件 → commit → `git push origin main`
+   （新建仓库**必须显式带分支名**，否则报缺少 upstream）。
+
 ## .git/refs/remotes 松散引用瞬间丢失（2026-09-20 复现）
 
 **症状**：`git fetch` 成功创建 `refs/remotes/origin/main`，但紧接着
