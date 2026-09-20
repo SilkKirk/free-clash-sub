@@ -10,7 +10,7 @@ import sys
 import time
 import urllib.parse
 import zipfile
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor
 
 import requests
 import yaml
@@ -225,6 +225,9 @@ def _delay_one(session, name, timeout_ms):
 
 BANDWIDTH_TEST_URL = "http://cachefly.cachefly.net/10mb.mp4"
 GROUP_NAME = "GLOBAL"
+# 单节点带宽测速上限（秒）：好节点几秒内就能下完 10MB，
+# 慢节点到时截断按已下载量估算速度
+BANDWIDTH_TIMEOUT_S = 8
 
 
 def _switch_proxy(proxy_name):
@@ -235,7 +238,7 @@ def _switch_proxy(proxy_name):
     return r.status_code == 204
 
 
-def _bandwidth_one(proxy_name, timeout=15):
+def _bandwidth_one(proxy_name, timeout=BANDWIDTH_TIMEOUT_S):
     """通过代理下载测试文件，返回下载速度 (KB/s)，失败返回 0。"""
     if not _switch_proxy(proxy_name):
         return 0
@@ -260,7 +263,7 @@ def _bandwidth_one(proxy_name, timeout=15):
         return 0
 
 
-def speed_test(proxies, top_n=30, delay_timeout=1500, bandwidth_top_n=50, workers=64):
+def speed_test(proxies, top_n=30, delay_timeout=2500, bandwidth_top_n=50, workers=32):
     """真实测速（实际请求穿透代理），返回 (最快节点列表, name->info 表)。
 
     流程：
@@ -321,18 +324,16 @@ def speed_test(proxies, top_n=30, delay_timeout=1500, bandwidth_top_n=50, worker
         bandwidth_candidates = delay_ranked[:bandwidth_top_n]
         log.info("阶段3: 带宽测速 (%d 节点，下载 %s)", len(bandwidth_candidates), BANDWIDTH_TEST_URL)
 
+        # 注意：_switch_proxy 切换的是全局唯一的 GLOBAL 组，
+        # 并发切换会互相覆盖导致测速结果失真，必须串行执行
         bandwidth_results = {}
-        done = 0
-        with ThreadPoolExecutor(max_workers=32) as ex:
-            futures = {ex.submit(_bandwidth_one, p["name"]): p for p in bandwidth_candidates}
-            for future in as_completed(futures):
-                p = futures[future]
-                speed = future.result()
-                if speed > 0:
-                    bandwidth_results[p["name"]] = speed
-                done += 1
-                if done % 10 == 0:
-                    log.info("带宽测速进度: %d/%d, 可用 %d", done, len(bandwidth_candidates), len(bandwidth_results))
+        total_bw = len(bandwidth_candidates)
+        for i, p in enumerate(bandwidth_candidates, 1):
+            speed = _bandwidth_one(p["name"], timeout=BANDWIDTH_TIMEOUT_S)
+            if speed > 0:
+                bandwidth_results[p["name"]] = speed
+            if i % 10 == 0 or i == total_bw:
+                log.info("带宽测速进度: %d/%d, 可用 %d", i, total_bw, len(bandwidth_results))
 
         t_bw = time.time()
         log.info("带宽可用节点: %d (%.1fs)", len(bandwidth_results), t_bw - t_delay)

@@ -4,7 +4,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY crawler.py server.py ./
+COPY crawler.py server.py speedtest.py ./
 
 ENV PORT=5000 REFRESH_HOURS=6
 

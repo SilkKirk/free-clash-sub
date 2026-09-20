@@ -15,9 +15,12 @@ import os
 import re
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor
 
 import requests
 import yaml
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 import speedtest
 
@@ -43,8 +46,11 @@ SOURCES = [
 ]
 
 TOP_N = int(os.environ.get("TOP_N", "30"))
-DELAY_TIMEOUT_MS = int(os.environ.get("DELAY_TIMEOUT_MS", "1500"))
+# 延迟测速超时：免费节点普遍偏慢，1500ms 会误杀大量可用节点，放宽到 2500ms
+DELAY_TIMEOUT_MS = int(os.environ.get("DELAY_TIMEOUT_MS", "2500"))
 BANDWIDTH_TOP_N = int(os.environ.get("BANDWIDTH_TOP_N", "50"))
+# 网络请求超时：(连接, 读取) 分离，连接 10s 快速失败，读取 30s
+HTTP_TIMEOUT = (10, 30)
 
 HEADERS = {
     "User-Agent": (
@@ -61,8 +67,21 @@ log = logging.getLogger("crawler")
 
 
 def _session():
+    """带自动重试的 Session：连接错误/读超时/5xx 自动退避重试 2 次。"""
     s = requests.Session()
     s.headers.update(HEADERS)
+    retry = Retry(
+        total=2,
+        connect=2,
+        read=2,
+        backoff_factor=1.5,
+        status_forcelist=(429, 500, 502, 503, 504),
+        allowed_methods=frozenset(["GET"]),
+        raise_on_status=False,
+    )
+    adapter = HTTPAdapter(max_retries=retry, pool_connections=8, pool_maxsize=8)
+    s.mount("http://", adapter)
+    s.mount("https://", adapter)
     return s
 
 
@@ -82,7 +101,7 @@ def _article_date(href):
 
 def pick_article_url(session, source):
     """列表页取文章。优先今天发布的，没有则用最新一篇。"""
-    resp = session.get(source["list_url"], timeout=30)
+    resp = session.get(source["list_url"], timeout=HTTP_TIMEOUT)
     resp.raise_for_status()
     hrefs = list(dict.fromkeys(ARTICLE_URL_RE.findall(resp.text)))
     if not hrefs:
@@ -104,7 +123,7 @@ def _yaml_re(domains):
 
 
 def fetch_article_yaml_urls(session, source, article_url):
-    resp = session.get(article_url, timeout=30)
+    resp = session.get(article_url, timeout=HTTP_TIMEOUT)
     resp.raise_for_status()
     urls = list(dict.fromkeys(_yaml_re(source["yaml_domains"]).findall(resp.text)))
     if not urls:
@@ -113,9 +132,25 @@ def fetch_article_yaml_urls(session, source, article_url):
 
 
 def download_yaml(session, url):
-    resp = session.get(url, timeout=60)
+    resp = session.get(url, timeout=HTTP_TIMEOUT)
     resp.raise_for_status()
     return resp.content.decode("utf-8", errors="replace")
+
+
+def download_all_yamls(session, urls, workers=8):
+    """并发下载并解析 YAML；单个失败只跳过该文件，不影响其他源。"""
+    def _one(u):
+        try:
+            return parse_yaml(download_yaml(session, u))
+        except Exception as e:
+            log.warning("YAML 下载失败 %s: %s", u, e)
+            return {}
+
+    docs = []
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        for doc in ex.map(_one, urls):
+            docs.append(doc)
+    return docs
 
 
 def parse_yaml(text):
@@ -303,7 +338,7 @@ def run_crawl(top_n=None, force_speed_test=True):
             article_url = pick_article_url(session, source)
             urls = fetch_article_yaml_urls(session, source, article_url)
             log.info("[%s] 找到 %d 个 YAML 源: %s", source["name"], len(urls), urls)
-            docs = [parse_yaml(download_yaml(session, u)) for u in urls]
+            docs = download_all_yamls(session, urls)
             merged = merge_proxies(docs)
             log.info("[%s] 去重后 %d 个节点", source["name"], len(merged))
             all_proxies.extend(merged)
@@ -329,7 +364,7 @@ def run_crawl(top_n=None, force_speed_test=True):
     else:
         top_proxies, delays = all_proxies[:top_n], {}
 
-    MAX_DELAY_MS = int(os.environ.get("MAX_DELAY_MS", "1200"))
+    MAX_DELAY_MS = int(os.environ.get("MAX_DELAY_MS", "2000"))
     if delays:
         before_count = len(top_proxies)
         top_proxies = [p for p in top_proxies if delays.get(p["name"], {}).get("delay", 0) <= MAX_DELAY_MS]

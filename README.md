@@ -75,10 +75,13 @@ docker run -d --name free-clash-sub -p 5000:5000 \
 |---|---|---|
 | `PORT` | `5000` | Web 服务端口 |
 | `REFRESH_HOURS` | `6` | 订阅自动刷新间隔（小时） |
+| `MIN_RETRY_SECONDS` | `600` | 抓取结束（成败均算）后的最小冷却秒数，防止反复触发 |
+| `CHECK_INTERVAL_SECONDS` | `300` | 后台检查订阅文件是否过期的周期（秒） |
 | `PUBLIC_URL` | `你的服务器地址:5000` | 信息页展示的订阅地址前缀 |
 | `TOP_N` | `30` | 测速后保留的最快节点数 |
-| `DELAY_TIMEOUT_MS` | `2000` | 单节点延迟测速超时（毫秒） |
-| `BANDWIDTH_TOP_N` | `60` | 进入带宽测试的节点数（延迟测速前 N 名） |
+| `DELAY_TIMEOUT_MS` | `2500` | 单节点延迟测速超时（毫秒） |
+| `MAX_DELAY_MS` | `2000` | 最终订阅里节点延迟上限（毫秒），过滤后无节点时自动回退取最低延迟 |
+| `BANDWIDTH_TOP_N` | `50` | 进入带宽测试的节点数（延迟测速前 N 名） |
 | `MIHOMO_MIRROR` | - | mihomo 下载首选镜像（默认直连 GitHub） |
 
 ## 项目结构
