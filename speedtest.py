@@ -7,10 +7,11 @@ import platform
 import socket
 import subprocess
 import sys
+import threading
 import time
 import urllib.parse
 import zipfile
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import requests
 import yaml
@@ -23,6 +24,8 @@ TEST_DIR = os.path.join(TOOLS_DIR, "mihomo-test")
 CONTROLLER = "127.0.0.1:19097"
 TEST_PORT = 17898
 TEST_URL = "http://www.gstatic.com/generate_204"
+# 带宽测速时每个节点的独立本地入站端口基址（listener 方案）
+LISTEN_PORT_BASE = 21000
 
 MIHOMO_REPO = "MetaCubeX/mihomo"
 MIHOMO_VERSION = "v1.19.29"
@@ -223,55 +226,116 @@ def _delay_one(session, name, timeout_ms):
     return None
 
 
-# 下载测速文件：cachefly 已长期不可达（mihomo 会立即 502，导致带宽全 0），
-# 改用 Cloudflare 官方测速下载端点，可用环境变量覆盖
-BANDWIDTH_TEST_URL = os.environ.get(
-    "BANDWIDTH_TEST_URL",
+# 下载测速端点降级链。
+# 首选 Google 系被墙端点：国内直连不通（SSL reset），只有穿墙节点能访问，
+# 测出来的才是订阅的真实可用带宽；文件大（69-110MB），超时截断按量估算。
+# cachefly 早已不可达（mihomo 立即 502）；Cloudflare 端点国内可达测不出穿墙
+# 价值，且对 GitHub Actions runner 出口 IP 限流（429），只作降级备选——
+# 一旦 429/403 会全局切换到下一个端点。可用环境变量 BANDWIDTH_TEST_URL 指定首选。
+BANDWIDTH_TEST_URLS = [
+    os.environ.get("BANDWIDTH_TEST_URL") or "https://dl.google.com/go/go1.23.4.linux-amd64.tar.gz",
+    "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb",
     "https://speed.cloudflare.com/__down?bytes=10000000",
-)
-GROUP_NAME = "GLOBAL"
+    "https://proof.ovh.net/files/10Mb.dat",
+    "http://speedtest.tele2.net/10MB.zip",
+]
+# 低于该下载速度视为不可用节点
+MIN_BW_KBPS = 20.0
 # 单节点带宽测速上限（秒）：好节点几秒内就能下完 10MB，
 # 慢节点到时截断按已下载量估算速度
 BANDWIDTH_TIMEOUT_S = 8
 
-
-def _switch_proxy(proxy_name):
-    """通过 mihomo API 切换当前选中的代理节点。"""
-    quoted = urllib.parse.quote(GROUP_NAME, safe="")
-    url = f"http://{CONTROLLER}/proxies/{quoted}"
-    r = requests.put(url, json={"name": proxy_name}, timeout=5)
-    return r.status_code == 204
+_bw_url_lock = threading.Lock()
+_bw_url_idx = 0
 
 
-def _bandwidth_one(proxy_name, timeout=BANDWIDTH_TIMEOUT_S, log_reason=False):
-    """通过代理下载测试文件，返回下载速度 (KB/s)，失败返回 0。"""
-    if not _switch_proxy(proxy_name):
-        if log_reason:
-            log.warning("带宽测速: 切换节点 %s 失败", proxy_name)
-        return 0
-    try:
-        proxies = {
-            "http": f"http://127.0.0.1:{TEST_PORT}",
-            "https": f"http://127.0.0.1:{TEST_PORT}",
-        }
-        t0 = time.time()
-        with requests.get(BANDWIDTH_TEST_URL, proxies=proxies, timeout=timeout, stream=True) as r:
-            r.raise_for_status()
-            total = 0
-            for chunk in r.iter_content(chunk_size=1 << 16):
-                total += len(chunk)
-                if time.time() - t0 > timeout:
-                    break
-        elapsed = time.time() - t0
-        if elapsed < 0.1 or total < 1024:
-            if log_reason:
-                log.warning("带宽测速: %s 下载数据异常 (%d bytes / %.2fs)", proxy_name, total, elapsed)
-            return 0
-        return total / elapsed / 1024  # KB/s
-    except Exception as e:
-        if log_reason:
-            log.warning("带宽测速: %s 下载失败: %s", proxy_name, e)
-        return 0
+def _current_bw_url():
+    with _bw_url_lock:
+        return BANDWIDTH_TEST_URLS[_bw_url_idx]
+
+
+def _ban_bw_url(url):
+    """429/403 限流是按来源 IP 的，所有节点都会撞上，全局切到下一个端点。"""
+    global _bw_url_idx
+    switched = False
+    with _bw_url_lock:
+        while _bw_url_idx < len(BANDWIDTH_TEST_URLS) - 1 and BANDWIDTH_TEST_URLS[_bw_url_idx] == url:
+            _bw_url_idx += 1
+            switched = True
+    return switched
+
+
+def _write_bw_config(proxies):
+    """生成带宽测速配置：为每个节点绑定一个专属本地 mixed listener 端口。
+
+    切换 GLOBAL 组选中节点的方案在并发下会互相覆盖（所有请求都走最后切到的
+    节点），串行又太慢；listener 方案让每个节点独享一个入站端口，可安全并发。
+    """
+    listeners = []
+    for i, p in enumerate(proxies):
+        listeners.append({
+            "name": f"bw-{i}",
+            "type": "mixed",
+            "port": LISTEN_PORT_BASE + i,
+            "listen": "127.0.0.1",
+            "proxy": p["name"],
+        })
+    cfg = {
+        "mixed-port": TEST_PORT,
+        "allow-lan": False,
+        "mode": "rule",
+        "log-level": "warning",
+        "external-controller": CONTROLLER,
+        "proxies": proxies,
+        "listeners": listeners,
+        "proxy-groups": [
+            {"name": "GLOBAL", "type": "select", "proxies": [p["name"] for p in proxies]}
+        ],
+        "rules": ["MATCH,GLOBAL"],
+    }
+    cfg_path = os.path.join(TEST_DIR, "config-bw.yaml")
+    with open(cfg_path, "w", encoding="utf-8") as f:
+        yaml.safe_dump(cfg, f, allow_unicode=True, sort_keys=False)
+    return cfg_path
+
+
+def _bandwidth_one(port, timeout=BANDWIDTH_TIMEOUT_S, log_reason=False):
+    """从节点专属的本地端口经该代理下载测试文件，返回下载速度 (KB/s)，失败返回 0。"""
+    proxies = {
+        "http": f"http://127.0.0.1:{port}",
+        "https": f"http://127.0.0.1:{port}",
+    }
+    last_exc = None
+    for _ in range(len(BANDWIDTH_TEST_URLS)):
+        url = _current_bw_url()
+        try:
+            t0 = time.time()
+            with requests.get(url, proxies=proxies, timeout=timeout, stream=True) as r:
+                if r.status_code in (429, 403):
+                    if _ban_bw_url(url) and log_reason:
+                        log.warning("带宽测速: 端点被限流(%d)，全局切换 -> %s", r.status_code, _current_bw_url())
+                    continue
+                r.raise_for_status()
+                total = 0
+                for chunk in r.iter_content(chunk_size=1 << 16):
+                    total += len(chunk)
+                    if time.time() - t0 > timeout:
+                        break
+            elapsed = time.time() - t0
+            if elapsed < 0.1 or total < 1024:
+                if log_reason:
+                    log.warning("带宽测速: 端口 %d 下载数据异常 (%d bytes / %.2fs, %s)",
+                                port, total, elapsed, url)
+                return 0
+            speed = total / elapsed / 1024  # KB/s
+            return speed if speed >= MIN_BW_KBPS else 0
+        except Exception as e:
+            # 请求异常视为该节点自身问题，不做端点降级
+            last_exc = e
+            break
+    if log_reason and last_exc:
+        log.warning("带宽测速: 端口 %d 下载失败: %s", port, last_exc)
+    return 0
 
 
 def speed_test(proxies, top_n=30, delay_timeout=2500, bandwidth_top_n=50, workers=32):
@@ -333,18 +397,32 @@ def speed_test(proxies, top_n=30, delay_timeout=2500, bandwidth_top_n=50, worker
             key=lambda p: delay_results[p["name"]],
         )
         bandwidth_candidates = delay_ranked[:bandwidth_top_n]
-        log.info("阶段3: 带宽测速 (%d 节点，下载 %s)", len(bandwidth_candidates), BANDWIDTH_TEST_URL)
-        # 注意：_switch_proxy 切换的是全局唯一的 GLOBAL 组，
-        # 并发切换会互相覆盖导致测速结果失真，必须串行执行；
-        # 前 2 个节点失败时打印原因，便于发现测速 URL 不可达等问题
+        # 阶段3：重启 mihomo 加载带 listener 的配置，每节点独享本地端口并发测速
+        log.info("阶段3: 带宽测速 (%d 节点，每节点独立端口，首选端点 %s)",
+                 len(bandwidth_candidates), BANDWIDTH_TEST_URLS[0])
+        proc.terminate()
+        try:
+            proc.wait(timeout=5)
+        except Exception:
+            proc.kill()
+        bw_cfg = _write_bw_config(bandwidth_candidates)
+        with open(log_file, "wb") as lf:
+            proc = subprocess.Popen([bin_path, "-d", TEST_DIR, "-f", bw_cfg], stdout=lf, stderr=lf)
+        _wait_ready(proc)
+
+        port_by_name = {LISTEN_PORT_BASE + i: p["name"] for i, p in enumerate(bandwidth_candidates)}
         bandwidth_results = {}
-        total_bw = len(bandwidth_candidates)
-        for i, p in enumerate(bandwidth_candidates, 1):
-            speed = _bandwidth_one(p["name"], timeout=BANDWIDTH_TIMEOUT_S, log_reason=(i <= 2))
-            if speed > 0:
-                bandwidth_results[p["name"]] = speed
-            if i % 10 == 0 or i == total_bw:
-                log.info("带宽测速进度: %d/%d, 可用 %d", i, total_bw, len(bandwidth_results))
+        done = 0
+        with ThreadPoolExecutor(max_workers=16) as ex:
+            futures = {ex.submit(_bandwidth_one, port): name for port, name in port_by_name.items()}
+            for future in as_completed(futures):
+                name = futures[future]
+                speed = future.result()
+                if speed > 0:
+                    bandwidth_results[name] = speed
+                done += 1
+                if done % 10 == 0 or done == len(port_by_name):
+                    log.info("带宽测速进度: %d/%d, 可用 %d", done, len(port_by_name), len(bandwidth_results))
 
         t_bw = time.time()
         log.info("带宽可用节点: %d (%.1fs)", len(bandwidth_results), t_bw - t_delay)

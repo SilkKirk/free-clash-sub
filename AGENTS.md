@@ -80,7 +80,9 @@ sha，直接 `git reset --hard <sha>`；推送判断 ahead/behind 时用 API 查
 
 - GitHub Actions 每日订阅更新由 workflow 在云端跑，本地只需保证代码推上去即可。
 - 2026-09-20：带宽测速 URL cachefly 长期不可达（mihomo 立即 502 → 带宽全 0），
-  已换 `https://speed.cloudflare.com/__down?bytes=10000000`（可用
-  `BANDWIDTH_TEST_URL` 环境变量覆盖）；带宽测速 `_switch_proxy` 切的是全局唯一的
-  GLOBAL 组，**必须串行**，并发会互相覆盖导致结果失真。
+  Cloudflare 端点对 runner IP 限流（429）且国内可达测不出穿墙速度，已改为
+  **Google 系被墙端点优先**（dl.google.com，国内 SSL reset 只有节点能访问，
+  测的是订阅真实可用带宽）+ 多端点降级链（429/403 全局切换下一个）；
+  带宽测速经 mihomo listeners 每节点绑定独立本地端口并发执行（LISTEN_PORT_BASE
+  起），不再切换 GLOBAL 组（并发会互相覆盖，串行又太慢）。
 
