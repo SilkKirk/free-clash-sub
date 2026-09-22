@@ -1,25 +1,24 @@
 {
-  "updated_at": "2026-09-21T07:32:14.179881",
+  "updated_at": "2026-09-22T07:11:52.291623",
   "node_count": 30,
-  "total_candidates": 2668,
+  "total_candidates": 4002,
   "sources": [
     {
       "source": "lancex",
-      "article_url": "https://lancex.net/free-node/2026-9-21-clash-windows.htm"
+      "article_url": "https://lancex.net/free-node/top-vpn-proxy-2026-9-22.htm"
     },
     {
       "source": "clash-node",
-      "article_url": "https://clash-node.com/free-node/2026-9-21-free-node-subscribe-links.htm"
+      "article_url": "https://clash-node.com/free-node/free-vpn-node-2026-9-22.htm"
     }
   ],
   "all_yaml_urls": [
-    "https://node.lancex.net/uploads/2026/09/0-20260921.yaml",
-    "https://node.lancex.net/uploads/2026/09/1-20260921.yaml",
-    "https://node.lancex.net/uploads/2026/09/2-20260921.yaml",
-    "https://node.lancex.net/uploads/2026/09/3-20260921.yaml",
-    "https://node.clash-node.com/uploads/2026/09/1-20260921.yaml",
-    "https://node.clash-node.com/uploads/2026/09/2-20260921.yaml",
-    "https://node.clash-node.com/uploads/2026/09/3-20260921.yaml",
-    "https://node.clash-node.com/uploads/2026/09/4-20260921.yaml"
+    "https://node.lancex.net/uploads/2026/09/0-20260922.yaml",
+    "https://node.lancex.net/uploads/2026/09/2-20260922.yaml",
+    "https://node.lancex.net/uploads/2026/09/3-20260922.yaml",
+    "https://node.lancex.net/uploads/2026/09/4-20260922.yaml",
+    "https://node.clash-node.com/uploads/2026/09/0-20260922.yaml",
+    "https://node.clash-node.com/uploads/2026/09/1-20260922.yaml",
+    "https://node.clash-node.com/uploads/2026/09/4-20260922.yaml"
   ]
 }
